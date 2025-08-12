@@ -1,0 +1,217 @@
+:root {
+  --primario: #c62828;
+  --secundario: #ef6c00;
+  --acento: #ffca28;
+  --oscuro: #121212;
+  --gris: #e0e0e0;
+  --claro: #fafafa;
+
+  --ff-rustico: "Rock Salt", "Amatic SC", cursive;
+  --ff-limpia: "Montserrat", system-ui, sans-serif;
+}
+
+/* Tipografías de marca */
+.brand-ml {
+  font-family: var(--ff-rustico);
+  font-size: 1.5rem;
+}
+.brand-title {
+  font-family: var(--ff-rustico);
+}
+.brand-section {
+  font-family: var(--ff-rustico);
+  font-size: 2rem;
+}
+
+/* Colores utilitarios */
+.text-primario {
+  color: var(--primario) !important;
+}
+.bg-primario {
+  background: var(--primario) !important;
+}
+.bg-secundario {
+  background: var(--secundario) !important;
+}
+.bg-acento {
+  background: var(--acento) !important;
+}
+.bg-claro {
+  background: var(--claro);
+}
+.ratio > img,
+.ratio > picture,
+.ratio > video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #fff;
+  display: block;
+}
+
+.top-2 {
+  top: 0.5rem;
+}
+.start-2 {
+  left: 0.5rem;
+}
+.position-absolute {
+  position: absolute;
+}
+
+/* Botones de marca */
+.btn-primario {
+  --bs-btn-bg: var(--primario);
+  --bs-btn-color: #fff;
+  --bs-btn-hover-bg: var(--secundario);
+  --bs-btn-border-color: var(--primario);
+  --bs-btn-hover-border-color: var(--secundario);
+  border: 1px solid var(--primario);
+  border-radius: 10px;
+  font-weight: 700;
+}
+.btn-outline-primario {
+  --bs-btn-color: var(--primario);
+  --bs-btn-border-color: var(--primario);
+  --bs-btn-hover-bg: var(--primario);
+  --bs-btn-hover-color: #fff;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+/* Chips / badges */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Tarjeta */
+.card-ml {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+}
+.card-ml .rounded-top {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* Imagenes */
+.object-cover {
+  object-fit: cover;
+}
+.text-white-75 {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Hero overlay rojo */
+.hero-overlay {
+  position: relative;
+}
+.hero-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(198, 40, 40, 0.55);
+  z-index: 1; /* overlay debajo del texto */
+}
+.hero-media {
+  z-index: 0;
+} /* imagen al fondo */
+.hero-content {
+  z-index: 2;
+} /* texto por encima del overlay */
+
+/* Footer */
+.link-footer {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+}
+.link-footer:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Link de marca */
+.link-primario {
+  color: var(--primario);
+  text-decoration: none;
+}
+.link-primario:hover {
+  color: #a61f1f;
+  text-decoration: underline;
+}
+
+/* Botón de ojo en password */
+#togglePass {
+  color: #6c757d;
+}
+#togglePass:hover {
+  color: var(--primario);
+}
+.social-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-radius: 10px;
+  text-decoration: none;
+}
+.social-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.border-white-25 {
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+#galeria .carousel-item img {
+  height: clamp(400px, 100vh, 450px);
+  width: 100%;
+  object-fit: contain;
+}
+
+.form-check-input:checked {
+  background-color: var(--primario) !important; /* rojo de la marca */
+  border-color: var(--primario) !important;
+}
+
+/* Ícono interno del checkbox (para WebKit) */
+.form-check-input:checked[type="checkbox"] {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='white' d='M6.173 16.727a.75.75 0 0 1-1.06 0l-4.25-4.25a.75.75 0 0 1 1.06-1.06l3.72 3.72 8.72-8.72a.75.75 0 1 1 1.06 1.06l-9.25 9.25z'/%3e%3c/svg%3e");
+}
+
+/* Radios en rojo */
+.form-check-input:checked[type="radio"] {
+  background-color: var(--primario) !important;
+  border-color: var(--primario) !important;
+}
+
+.form-control,
+.form-select {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: #f5f5f5;
+  border-color: var(--primario);
+  box-shadow: 0 0 0 0.2rem rgba(198, 40, 40, 0.15);
+}
+.navbar .nav-link {
+  transition: color 0.3s ease, background-color 0.3s ease;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+.navbar .nav-link:hover {
+  background-color: var(--primario);
+  color: #fff !important;
+}
