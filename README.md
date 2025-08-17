@@ -35,17 +35,18 @@ Las imágenes están ubicadas en la carpeta:
 
 ---
 
-## 🔀 Diagrama de Navegación
-
-## 🔀 Diagrama de Navegación
+## 🔀 Diagrama de Navegacion
 
 ```mermaid
 flowchart LR
-  L[Landing] --> M[Menú (tarjetas)]
-  L --> T[Menú (tabla)]
+  L[Landing] --> M[Menu tarjetas]
+  L --> T[Menu tabla]
   L --> LG[Login]
   L --> SG[Register]
-  L --- SM[Sección menú] & SR[Sección reservas] & SMM[Sección momentos] & SC[Sección contacto]
+  L --> SM[Seccion menu]
+  L --> SR[Seccion reservas]
+  L --> SMM[Seccion momentos]
+  L --> SC[Seccion contacto]
 
   M --> D[Detalle producto]
   T --> D
