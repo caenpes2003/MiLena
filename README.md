@@ -52,10 +52,3 @@ flowchart LR
   LG --> SR
 
 
-  click L "/"
-  click M "/menu"
-  click T "/menu/table"
-  click D "/producto/arepa-rellena"
-  click LG "/login"
-  click SG "/register"
-
