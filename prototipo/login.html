@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Iniciar sesión — Mi Leña</title>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Amatic+SC:wght@700&family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Estilos de marca -->
+    <link rel="stylesheet" href="css/custom.css" />
+  </head>
+  <body class="auth-page">
+    <div id="pageLoader" class="page-loader hidden" aria-hidden="true">
+      <div
+        class="page-loader-inner"
+        role="status"
+        aria-live="polite"
+        aria-label="Cargando"
+      >
+        <img src="assets/Logo1.png" alt="Mi Leña" class="loader-logo" />
+        <div class="loader-text">Cargando…</div>
+      </div>
+    </div>
+    <!-- NAVBAR -->
+    <nav
+      id="mainNavbar"
+      class="navbar navbar-expand-lg navbar-dark nav-ml fixed-top py-4"
+      aria-label="Navegación principal"
+    >
+      <div class="container-xl">
+        <!-- Logo / Marca -->
+        <a
+          class="navbar-brand d-flex align-items-center gap-2"
+          href="index.html#inicio"
+          id="brandML"
+          aria-label="Ir al inicio"
+        >
+          <!-- Logo -->
+          <img src="assets/Logo1.png" alt="Mi Leña" class="logo-img me-1" />
+
+          <!-- Nombre en PNG con glow -->
+          <img
+            src="assets/Nombre.png"
+            alt="Mi Leña"
+            class="brand-name-img ember-glow"
+          />
+        </a>
+
+        <!-- Hamburguesa -->
+        <button
+          class="navbar-toggler border-0"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasNav"
+          aria-controls="offcanvasNav"
+          aria-expanded="false"
+          aria-label="Menú"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Desktop -->
+        <div
+          class="collapse navbar-collapse d-none d-lg:flex position-relative"
+          id="mainNavContent"
+        >
+          <!-- Indicador de navegación -->
+          <div class="nav-marker" aria-hidden="true"></div>
+
+          <ul class="navbar-nav mx-auto gap-3">
+            <li class="nav-item">
+              <a
+                class="nav-link fw-semibold fs-5"
+                href="index.html#inicio"
+                aria-current="page"
+                >Inicio</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold fs-5" href="index.html#menu"
+                >Menú</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold fs-5" href="index.html#momentos"
+                >Momentos</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold fs-5" href="index.html#reservas"
+                >Reservas</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold fs-5" href="index.html#contacto"
+                >Contacto</a
+              >
+            </li>
+          </ul>
+
+          <!-- Botones de autenticación -->
+          <div class="d-flex align-items-center gap-2">
+            <a href="login.html" class="btn btn-pill-outline-auth btn-ripple"
+              >Iniciar sesión</a
+            >
+            <a href="register.html" class="btn btn-pill-solid-auth btn-ripple"
+              >Regístrate</a
+            >
+          </div>
+        </div>
+
+        <!-- Offcanvas móvil -->
+        <div
+          class="offcanvas offcanvas-end bg-primario text-white d-lg-none"
+          tabindex="-1"
+          id="offcanvasNav"
+          aria-labelledby="offcanvasNavLabel"
+        >
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavLabel">Mi Leña</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="offcanvas"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav gap-2">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html#inicio">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="index.html#menu">Menú</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="index.html#momentos">Momentos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="index.html#reservas">Reservas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="index.html#contacto">Contacto</a>
+              </li>
+            </ul>
+            <div class="mt-3 d-grid gap-2">
+              <a href="login.html" class="btn btn-pill-outline-auth w-100"
+                >Iniciar sesión</a
+              >
+              <a href="register.html" class="btn btn-pill-solid-auth w-100"
+                >Regístrate</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="auth-hero pt-5">
+      <!-- overlay y textura van por CSS -->
+      <section class="py-5">
+        <div class="container-xl">
+          <!-- Encabezado -->
+          <div class="text-center mb-4">
+            <h1 class="brand-section text-acento mb-2">
+              ¡Bienvenido de vuelta!
+            </h1>
+            <p class="text-white-75">Ingresa a tu cuenta de Mi Leña</p>
+          </div>
+
+          <!-- Card centrada -->
+          <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-5">
+              <div class="auth-card p-4 p-md-5">
+                <div class="text-center mb-3">
+                  <img
+                    src="assets/NombreLog.png"
+                    alt="Mi Leña"
+                    class="auth-logo mb-2"
+                  />
+                  <h2 class="h4 text-white-75 mb-0">Iniciar sesión</h2>
+                </div>
+
+                <form id="loginForm" novalidate>
+                  <!-- Email -->
+                  <div class="mb-3">
+                    <label
+                      for="email"
+                      class="form-label fw-semibold text-white-75"
+                      >Correo electrónico</label
+                    >
+                    <div class="has-icon">
+                      <input
+                        type="email"
+                        class="form-control form-control-lg"
+                        id="email"
+                        name="email"
+                        placeholder="tu@email.com"
+                        required
+                      />
+                      <span class="input-icon" aria-hidden="true">
+                        <!-- mail -->
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                        >
+                          <path
+                            d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"
+                          />
+                        </svg>
+                      </span>
+                    </div>
+                    <div class="invalid-feedback">
+                      Ingresa un correo válido.
+                    </div>
+                  </div>
+
+                  <!-- Password + toggle ojo -->
+                  <div class="mb-2">
+                    <label
+                      for="password"
+                      class="form-label fw-semibold text-white-75"
+                      >Contraseña</label
+                    >
+                    <div class="position-relative has-icon">
+                      <input
+                        type="password"
+                        class="form-control form-control-lg pe-5"
+                        id="password"
+                        name="password"
+                        placeholder="Tu contraseña"
+                        required
+                      />
+                      <span class="input-icon" aria-hidden="true">
+                        <!-- lock -->
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                        >
+                          <path
+                            d="M17 8h-1V6a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2Zm-6 0V6a2 2 0 1 1 4 0v2h-4Z"
+                          />
+                        </svg>
+                      </span>
+
+                      <button
+                        type="button"
+                        id="togglePass"
+                        class="btn btn-link p-0 position-absolute top-50 end-0 translate-middle-y me-3 text-white-75"
+                        aria-label="Mostrar u ocultar contraseña"
+                      >
+                        <span
+                          id="icon-eye"
+                          class="d-inline-block"
+                          aria-hidden="true"
+                        >
+                          <svg
+                            width="22"
+                            height="22"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                          >
+                            <path
+                              d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7Zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Z"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          id="icon-eye-off"
+                          class="d-none"
+                          aria-hidden="true"
+                        >
+                          <svg
+                            width="22"
+                            height="22"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                          >
+                            <path
+                              d="M3 4.27 1.75 5.5l3.2 3.2A13.5 13.5 0 0 0 1 12s4 7 11 7c2.1 0 3.9-.5 5.5-1.28l3.48 3.48 1.27-1.27L3 4.27Zm8 13.23C7.1 17.5 4.46 15.34 3.12 14c.74-.79 1.87-1.86 3.32-2.74l2.02 2.02A4 4 0 0 0 12 16a4 4 0 0 0 1.73-.38l1.63 1.63c-1 .3-2.1.25-2.36.25Zm0-12c2.9 0 5.54 2.16 6.88 3.5-.48.52-1.13 1.13-1.95 1.74l-1.47-1.47A4 4 0 0 0 12 8a4 4 0 0 0-1.9.48L8.46 6.84c1-.3 2.1-.34 2.54-.34Z"
+                            />
+                          </svg>
+                        </span>
+                      </button>
+                    </div>
+                    <div class="invalid-feedback">
+                      La contraseña es obligatoria.
+                    </div>
+                    <small id="capsHint" class="form-hint text-warning d-none"
+                      >Bloq Mayús está activado</small
+                    >
+                  </div>
+
+                  <!-- Recordarme + Olvidé -->
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-3"
+                  >
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="remember"
+                        name="remember"
+                      />
+                      <label
+                        class="form-check-label text-white-75"
+                        for="remember"
+                        >Recuérdame</label
+                      >
+                    </div>
+                    <a href="#" class="link-primario small"
+                      >¿Olvidaste tu contraseña?</a
+                    >
+                  </div>
+
+                  <!-- Submit -->
+                  <button
+                    type="submit"
+                    class="btn btn-primario w-100 btn-lg btn-ripple"
+                  >
+                    Entrar
+                  </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="text-center my-3 text-white-50">o</div>
+
+                <!-- Sign up -->
+                <p class="text-center mb-0 text-white-75">
+                  ¿No tienes cuenta?
+                  <a href="register.html" class="link-primario fw-semibold"
+                    >Regístrate aquí</a
+                  >
+                </p>
+              </div>
+
+              <!-- Info legal -->
+              <p class="text-center text-white-50 small mt-3">
+                Al iniciar sesión, aceptas nuestros
+                <a href="#" class="link-primario">términos y condiciones</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JS propio -->
+    <script src="js/main.js"></script>
+  </body>
+</html>
