@@ -1,0 +1,115 @@
+<!-- NO DOCTYPE, NO <html> -->
+<nav
+  id="mainNavbar"
+  class="navbar navbar-expand-lg navbar-dark nav-ml fixed-top py-4"
+  th:fragment="navbar"
+>
+  <div class="container-xl">
+    <!-- Marca -->
+    <a
+      class="navbar-brand d-flex align-items-center gap-2"
+      th:href="@{/}"
+      id="brandML"
+    >
+      <img th:src="@{/assets/Logo1.png}" alt="Mi Leña" class="logo-img me-1" />
+      <img
+        th:src="@{/assets/Nombre.png}"
+        alt="Mi Leña"
+        class="brand-name-img"
+      />
+    </a>
+
+    <!-- Hamburguesa -->
+    <button
+      class="navbar-toggler border-0"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasNav"
+      aria-controls="offcanvasNav"
+      aria-expanded="false"
+      aria-label="Menú"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Desktop -->
+    <div
+      class="collapse navbar-collapse d-none d-lg:flex position-relative"
+      id="mainNavContent"
+    >
+      <div class="nav-marker" aria-hidden="true"></div>
+      <ul class="navbar-nav mx-auto gap-3">
+        <li class="nav-item">
+          <a class="nav-link fw-semibold fs-5" th:href="@{'/' + '#inicio'}"
+            >Inicio</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-semibold fs-5" th:href="@{/menu}">Menú</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-semibold fs-5" th:href="@{'/' + '#momentos'}"
+            >Momentos</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-semibold fs-5" th:href="@{'/' + '#reservas'}"
+            >Reservas</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-semibold fs-5" th:href="@{'/' + '#contacto'}"
+            >Contacto</a
+          >
+        </li>
+      </ul>
+      <div class="d-flex align-items-center gap-2">
+        <a th:href="@{/login}" class="btn btn-pill-outline-auth btn-ripple" style>
+          Iniciar sesión</a
+        >
+        <a th:href="@{/register}" class="btn btn-pill-solid-auth btn-ripple"
+          >Regístrate</a
+        >
+      </div>
+    </div>
+
+    <!-- Offcanvas móvil -->
+    <div
+      class="offcanvas offcanvas-end bg-primario text-white d-lg-none"
+      tabindex="-1"
+      id="offcanvasNav"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Mi Leña</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="offcanvas"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav gap-2">
+          <li><a class="nav-link" th:href="@{'/' + '#inicio'}">Inicio</a></li>
+          <li><a class="nav-link" th:href="@{/menu}">Menú</a></li>
+          <li>
+            <a class="nav-link" th:href="@{'/' + '#momentos'}">Momentos</a>
+          </li>
+          <li>
+            <a class="nav-link" th:href="@{'/' + '#reservas'}">Reservas</a>
+          </li>
+          <li>
+            <a class="nav-link" th:href="@{'/' + '#contacto'}">Contacto</a>
+          </li>
+        </ul>
+        <div class="mt-3 d-grid gap-2">
+          <a th:href="@{/login}" class="btn btn-pill-outline-auth w-100"
+            >Iniciar sesión</a
+          >
+          <a th:href="@{/register}" class="btn btn-pill-solid-auth w-100"
+            >Regístrate</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

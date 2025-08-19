@@ -1,0 +1,60 @@
+<!-- NO DOCTYPE, NO <html> -->
+<footer class="bg-primario text-white pt-5" th:fragment="footer">
+  <div class="container-xl">
+    <div class="row g-4 pb-4">
+      <div class="col-12 col-md-3">
+        <h3 class="h5 mb-3 brand-ml">Mi Leña</h3>
+        <p class="text-white-75">
+          9 años de tradición en asados y refajos en Bogotá.
+        </p>
+      </div>
+      <div class="col-6 col-md-3">
+        <h4 class="h6 mb-3">Enlaces</h4>
+        <ul class="list-unstyled text-white-75">
+          <li><a class="link-footer" th:href="@{/menu}">Menú</a></li>
+          <li>
+            <a class="link-footer" th:href="@{'/' + '#reservas'}">Reservas</a>
+          </li>
+          <li>
+            <a class="link-footer" th:href="@{'/' + '#reservas'}">Ubicación</a>
+          </li>
+          <li>
+            <a class="link-footer" th:href="@{'/' + '#contacto'}">Contacto</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-6 col-md-3">
+        <h4 class="h6 mb-3">Horarios</h4>
+        <p class="mb-0 text-white-75">Lunes - Domingo<br />12:00 - 18:00</p>
+      </div>
+      <div class="col-12 col-md-3">
+        <h4 class="h6 mb-3">Síguenos</h4>
+        <div class="d-flex gap-3">
+          <a
+            class="social-btn"
+            href="https://www.instagram.com/asadosmilena/"
+            target="_blank"
+            ><i class="bi bi-instagram"></i
+          ></a>
+          <a
+            class="social-btn"
+            href="https://www.facebook.com/Asadosmilenaoficial"
+            target="_blank"
+            ><i class="bi bi-facebook"></i
+          ></a>
+          <a
+            class="social-btn"
+            href="https://www.tiktok.com/@asadosmilena"
+            target="_blank"
+            ><i class="bi bi-tiktok"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="border-top border-white-25 text-center py-3 text-white-50 small"
+    >
+      © 2025 Mi Leña - Asados y Refajos. Todos los derechos reservados.
+    </div>
+  </div>
+</footer>
