@@ -2040,7 +2040,7 @@ main > section:first-child {
 
 #menuTable thead::after {
   content: "";
- 
+
   display: block;
   height: 1px;
   background: #24100c; /* línea oscura consistente */
@@ -2285,4 +2285,125 @@ main > section:first-child {
 }
 .dropdown-dark .dropdown-divider {
   border-top-color: #2d110b;
+}
+
+.img-fluid {
+  transition: transform 0.3s ease;
+}
+.img-fluid:hover {
+  transform: scale(1.05);
+}
+
+/* Imagen producto con zoom */
+.animate-zoom {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.animate-zoom:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* Tarjetas relacionadas con efecto hover */
+.hover-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.hover-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Botones con ripple effect */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+.btn::after {
+  content: "";
+  position: absolute;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transform: scale(0);
+  width: 100px;
+  height: 100px;
+  opacity: 0;
+  pointer-events: none;
+  animation: none;
+}
+.btn:active::after {
+  animation: ripple 0.6s linear;
+  opacity: 1;
+  transform: scale(4);
+}
+@keyframes ripple {
+  to {
+    opacity: 0;
+    transform: scale(10);
+  }
+}
+
+/* Animación fade-in global */
+main section {
+  animation: fadeInUp 0.8s ease;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Fondo premium pantalla de producto ===== */
+.product-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+
+  /* base: madera + gradiente cálido */
+  background: url("../assets/wood.jpeg") center/cover no-repeat,
+    radial-gradient(
+      1200px 700px at 80% 0%,
+      rgba(122, 0, 0, 0.25),
+      transparent 60%
+    ),
+    linear-gradient(180deg, rgba(26, 12, 8, 0.7), rgba(26, 12, 8, 0.9));
+
+  background-blend-mode: multiply, normal, normal;
+  padding-top: var(--altura-nav);
+  padding-bottom: 3rem;
+  color: #fff; /* texto base claro */
+}
+
+/* Vignette suave */
+.product-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at center,
+    transparent 60%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+  z-index: -1;
+}
+
+/* Grain sutil para dar textura premium */
+.product-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0 0 0 .02 .045 .02 0 0 0 0'/></feComponentTransfer></filter><rect width='120' height='120' filter='url(%23n)'/></svg>");
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+  z-index: -1;
+}
+/* Texto de descripción en producto */
+.product-hero p {
+  color: #fff !important;
 }

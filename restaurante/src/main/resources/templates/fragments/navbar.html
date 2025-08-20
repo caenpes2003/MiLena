@@ -1,4 +1,8 @@
-<!-- NO DOCTYPE, NO <html> -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+/>
+
 <nav
   id="mainNavbar"
   class="navbar navbar-expand-lg navbar-dark nav-ml fixed-top py-4"
@@ -40,31 +44,51 @@
       <div class="nav-marker" aria-hidden="true"></div>
       <ul class="navbar-nav mx-auto gap-3">
         <li class="nav-item">
-          <a class="nav-link fw-semibold fs-5" th:href="@{'/' + '#inicio'}"
-            >Inicio</a
-          >
+          <a class="nav-link fw-semibold fs-5" th:href="@{/#inicio}">Inicio</a>
         </li>
         <li class="nav-item">
           <a class="nav-link fw-semibold fs-5" th:href="@{/menu}">Menú</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link fw-semibold fs-5" th:href="@{'/' + '#momentos'}"
+          <a class="nav-link fw-semibold fs-5" th:href="@{/#momentos}"
             >Momentos</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link fw-semibold fs-5" th:href="@{'/' + '#reservas'}"
+          <a class="nav-link fw-semibold fs-5" th:href="@{/#reservas}"
             >Reservas</a
           >
         </li>
+        <li class="nav-item">
+          <a class="nav-link fw-semibold fs-5" th:href="@{/#contacto}"
+            >Contacto</a
+          >
+        </li>
+
         <li class="nav-item">
           <a class="nav-link fw-semibold fs-5" th:href="@{'/' + '#contacto'}"
             >Contacto</a
           >
         </li>
+        <li class="nav-item ms-3">
+          <a href="/login" class="nav-link position-relative">
+            <i class="bi bi-cart fs-4"></i>
+            <span
+              id="cartBadge"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white shadow-sm d-none"
+              style="font-size: 0.75rem; min-width: 20px"
+            >
+              0
+            </span>
+          </a>
+        </li>
       </ul>
       <div class="d-flex align-items-center gap-2">
-        <a th:href="@{/login}" class="btn btn-pill-outline-auth btn-ripple" style>
+        <a
+          th:href="@{/login}"
+          class="btn btn-pill-outline-auth btn-ripple"
+          style
+        >
           Iniciar sesión</a
         >
         <a th:href="@{/register}" class="btn btn-pill-solid-auth btn-ripple"

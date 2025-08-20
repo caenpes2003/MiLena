@@ -19,6 +19,13 @@
   </head>
 
   <body>
+    <!-- Loader -->
+    <div id="pageLoader" class="page-loader hidden" aria-hidden="true">
+      <div class="page-loader-inner">
+        <img th:src="@{/assets/Logo1.png}" alt="Mi Leña" class="loader-logo" />
+        <div class="loader-text">Cargando…</div>
+      </div>
+    </div>
     <!-- NAV -->
     <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 

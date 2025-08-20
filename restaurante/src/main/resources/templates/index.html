@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Mi Leña – Asados y Refajos</title>
+
+    <meta
+      name="description"
+      content="Asados y refajos con sabor a fuego y leña en Bogotá. Reservas, menú y ubicación de Mi Leña."
+    />
+    <link rel="icon" th:href="@{/assets/favicon.png}" />
+
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Amatic+SC:wght@700&family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap & Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- CSS propio -->
+    <link rel="stylesheet" th:href="@{/css/custom.css}" />
+  </head>
+  <body>
+    <!-- Loader -->
+    <div id="pageLoader" class="page-loader hidden" aria-hidden="true">
+      <div class="page-loader-inner">
+        <img th:src="@{/assets/Logo1.png}" alt="Mi Leña" class="loader-logo" />
+        <div class="loader-text">Cargando…</div>
+      </div>
+    </div>
+
+    <!-- Barra de progreso de scroll -->
+    <div id="scrollbarML"></div>
+    <!-- NAV -->
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <!-- HERO -->
+    <main id="inicio" class="pt-5">
+      <section class="hero hero-overlay d-flex align-items-center" id="heroML">
+        <img
+          th:src="@{/assets/hero.avif}"
+          class="hero-media position-absolute w-100 h-100 object-cover"
+          alt="Asado colombiano"
+        />
+        <div class="container-xl hero-content text-center text-white">
+          <span class="hero-badge">9 años de tradición</span>
+          <h1 class="fw-bold mb-3 brand-title text-white">
+            Amigos, pola y carne
+          </h1>
+          <p class="lead text-white-75 mb-4">
+            Asados y refajos con sabor a fuego y leña.
+          </p>
+          <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a th:href="@{/login}" class="btn btn-primario btn-lg px-4"
+              >Reservar ahora</a
+            >
+            <a href="#menu" class="btn btn-outline-light btn-lg px-4"
+              >Ver menú</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- PLATOS DESTACADOS (estilo “hero slide” 1x1) -->
+      <section id="menu" class="py-5 bg-dark text-white bg-pattern">
+        <div class="container-xl">
+          <div class="text-center mb-4">
+            <h2 class="menu-title">MENÚ</h2>
+          </div>
+
+          <div
+            class="dish-slider dish-hero"
+            id="dishSlider"
+            aria-roledescription="carousel"
+            aria-label="Platos destacados"
+          >
+            <!-- Track -->
+            <div class="dish-track" id="dishTrack" tabindex="0">
+              <!-- Slide 1 -->
+              <article
+                class="dish-slide card-ml snap-start"
+                data-index="0"
+                role="group"
+                aria-roledescription="slide"
+                aria-label="1 de 6"
+              >
+                <div class="dish-grid">
+                  <div class="dish-media">
+                    <div class="ratio ratio-1x1 ratio-xl-4x3">
+                      <img
+                        src="assets/Plato2.png"
+                        class="object-cover"
+                        alt="Churrasco premium con chimichurri"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                  <div class="dish-info">
+                    <h3 class="dish-name">Churrasco Premium</h3>
+                    <p class="dish-desc">
+                      Corte argentino al punto, con chimichurri de la casa y
+                      papas rústicas.
+                    </p>
+                    <a href="login.html" class="btn btn-primario btn-lg"
+                      >Pedir</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <!-- Slide 2 -->
+              <article
+                class="dish-slide card-ml snap-start"
+                data-index="1"
+                role="group"
+                aria-roledescription="slide"
+                aria-label="2 de 6"
+              >
+                <div class="dish-grid">
+                  <div class="dish-media">
+                    <div class="ratio ratio-1x1 ratio-xl-4x3">
+                      <img
+                        src="assets/Plato1.png"
+                        class="object-cover"
+                        alt="Pechuga a la parrilla jugosa"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                  <div class="dish-info">
+                    <h3 class="dish-name">Pechuga a la Parrilla</h3>
+                    <p class="dish-desc">
+                      Marinada en especias, cocción a la leña y ensalada fresca.
+                    </p>
+                    <a href="login.html" class="btn btn-primario btn-lg"
+                      >Pedir</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <!-- Slide 3 -->
+              <article
+                class="dish-slide card-ml snap-start"
+                data-index="2"
+                role="group"
+                aria-roledescription="slide"
+                aria-label="3 de 6"
+              >
+                <div class="dish-grid">
+                  <div class="dish-media">
+                    <div class="ratio ratio-1x1 ratio-xl-4x3">
+                      <img
+                        src="assets/Plato3.png"
+                        class="object-cover"
+                        alt="Ajiaco santafereño con pollo"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                  <div class="dish-info">
+                    <h3 class="dish-name">Ajiaco Santafereño</h3>
+                    <p class="dish-desc">
+                      Tres papas, pollo y crema; el clásico que reconforta.
+                    </p>
+                    <a href="login.html" class="btn btn-primario btn-lg"
+                      >Pedir</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <!-- Slide 4 -->
+              <article
+                class="dish-slide card-ml snap-start"
+                data-index="3"
+                role="group"
+                aria-roledescription="slide"
+                aria-label="4 de 6"
+              >
+                <div class="dish-grid">
+                  <div class="dish-media">
+                    <div class="ratio ratio-1x1 ratio-xl-4x3">
+                      <img
+                        src="assets/Plato4.png"
+                        class="object-cover"
+                        alt="Costillas BBQ a la leña"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                  <div class="dish-info">
+                    <h3 class="dish-name">Costillas BBQ a la Leña</h3>
+                    <p class="dish-desc">
+                      Glaseado casero y humo suave; se desprenden del hueso.
+                    </p>
+                    <a href="login.html" class="btn btn-primario btn-lg"
+                      >Pedir</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <!-- Slide 5 -->
+              <article
+                class="dish-slide card-ml snap-start"
+                data-index="4"
+                role="group"
+                aria-roledescription="slide"
+                aria-label="5 de 6"
+              >
+                <div class="dish-grid">
+                  <div class="dish-media">
+                    <div class="ratio ratio-1x1 ratio-xl-4x3">
+                      <img
+                        src="assets/Plato5.png"
+                        class="object-cover"
+                        alt="Chorizo con arepa y guacamole"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                  <div class="dish-info">
+                    <h3 class="dish-name">Chorizo con Arepa</h3>
+                    <p class="dish-desc">
+                      Santarrosano, a la brasa, con arepa de maíz y guacamole.
+                    </p>
+                    <a href="login.html" class="btn btn-primario btn-lg"
+                      >Pedir</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <!-- Slide 6 -->
+              <article
+                class="dish-slide card-ml snap-start"
+                data-index="5"
+                role="group"
+                aria-roledescription="slide"
+                aria-label="6 de 6"
+              >
+                <div class="dish-grid">
+                  <div class="dish-media">
+                    <div class="ratio ratio-1x1 ratio-xl-4x3">
+                      <img
+                        src="assets/Plato6.png"
+                        class="object-cover"
+                        alt="Bandeja Mi Leña"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                  <div class="dish-info">
+                    <h3 class="dish-name">Bandeja Mi Leña</h3>
+                    <p class="dish-desc">
+                      Selección mixta de la casa: res, cerdo y pollo para
+                      compartir.
+                    </p>
+                    <a href="login.html" class="btn btn-primario btn-lg"
+                      >Pedir</a
+                    >
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <!-- Flechas -->
+            <button class="dish-ctrl prev" type="button" aria-label="Anterior">
+              ‹
+            </button>
+            <button class="dish-ctrl next" type="button" aria-label="Siguiente">
+              ›
+            </button>
+
+            <!-- Dots -->
+            <div class="dish-dots" id="dishDots" aria-hidden="true"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MOMENTOS (Collage editorial + Lightbox) -->
+      <section id="momentos" class="py-5">
+        <div class="container-xl">
+          <div class="text-center mb-4">
+            <h2 class="brand-section mb-2">Vive tus momentos con nosotros</h2>
+            <p class="text-muted">
+              Brasa, amigos y esos instantes que valen la pena
+            </p>
+          </div>
+
+          <!-- Grid de videos -->
+          <div id="momentsVideos" class="video-grid">
+            <!-- Video 1 -->
+            <a
+              href="#"
+              class="video-card"
+              data-src="assets/momentos1.mp4"
+              data-poster="assets/momentos1.png"
+              data-caption="Asado al fuego vivo – nuestro sello"
+              data-no-loader
+              aria-label="Reproducir video: BabyShower con asado al fuego vivo"
+            >
+              <div class="ratio ratio-16x9 video-thumb">
+                <video
+                  muted
+                  playsinline
+                  preload="none"
+                  poster="assets/momentos1.png"
+                  tabindex="-1"
+                >
+                  <source src="assets/momentos1.mp4" type="video/mp4" />
+                </video>
+              </div>
+              <div class="video-caption">
+                BabyShower con asado al fuego vivo
+              </div>
+            </a>
+
+            <!-- Video 2 -->
+            <a
+              href="#"
+              class="video-card"
+              data-src="assets/momentos2.mp4"
+              data-poster="assets/momentos2.png"
+              data-caption="Refajos bien fríos para compartir"
+              data-no-loader
+              aria-label="Reproducir video: Refajos bien fríos para compartir"
+            >
+              <div class="ratio ratio-16x9 video-thumb">
+                <video
+                  muted
+                  playsinline
+                  preload="none"
+                  poster="assets/momentos2.png"
+                  tabindex="-1"
+                >
+                  <source src="assets/momentos2.mp4" type="video/mp4" />
+                </video>
+              </div>
+              <div class="video-caption">La mesa lista para tus momentos</div>
+            </a>
+
+            <!-- Video 3 -->
+            <a
+              href="#"
+              class="video-card"
+              data-src="assets/momentos3.mp4"
+              data-poster="assets/momentos3.png"
+              data-caption="La mesa lista para tus momentos"
+              data-no-loader
+              aria-label="Reproducir video: La mesa lista para tus momentos"
+            >
+              <div class="ratio ratio-16x9 video-thumb">
+                <video
+                  muted
+                  playsinline
+                  preload="none"
+                  poster="assets/momentos3.png"
+                  tabindex="-1"
+                >
+                  <source src="assets/momentos3.mp4" type="video/mp4" />
+                </video>
+              </div>
+              <div class="video-caption">Vive tus mejores 15 años</div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Lightbox modal -->
+        <div
+          class="modal fade"
+          id="momentsModal"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content bg-black text-white border-0">
+              <button
+                type="button"
+                class="btn-close btn-close-white ms-auto m-2"
+                data-bs-dismiss="modal"
+                aria-label="Cerrar"
+              ></button>
+
+              <div class="ratio ratio-16x9">
+                <!-- Video in-modal -->
+                <video
+                  id="momentsModalVideo"
+                  controls
+                  playsinline
+                  preload="metadata"
+                  style="background: #000"
+                ></video>
+              </div>
+
+              <div
+                class="p-3 d-flex justify-content-between align-items-center"
+              >
+                <div id="momentsModalCaption" class="small text-white-75"></div>
+                <div class="d-flex gap-2">
+                  <button
+                    id="momentsPrev"
+                    class="btn btn-outline-light btn-sm"
+                    aria-label="Anterior"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    id="momentsNext"
+                    class="btn btn-outline-light btn-sm"
+                    aria-label="Siguiente"
+                  >
+                    ›
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- UBICACIÓN Y HORARIOS + MAPA -->
+      <section id="reservas" class="py-5">
+        <div class="container-xl">
+          <div class="row g-4 align-items-start">
+            <!-- Info -->
+            <div class="col-lg-6">
+              <div class="card-ml p-4 mb-4">
+                <h2 class="h4 brand-section text-primario mb-3">
+                  Reserva tu mesa
+                </h2>
+
+                <div class="d-flex gap-3 mb-3">
+                  <div class="fs-4 text-primario" aria-hidden="true">📍</div>
+                  <div>
+                    <h3 class="h6 mb-1">Dirección</h3>
+                    <p class="text-muted mb-0">
+                      84 Carrera 58, #128<br />Bogotá, Colombia
+                    </p>
+                  </div>
+                </div>
+
+                <div class="d-flex gap-3 mb-3">
+                  <div class="fs-4 text-primario" aria-hidden="true">⏰</div>
+                  <div>
+                    <h3 class="h6 mb-1">Horarios</h3>
+                    <p class="text-muted mb-0">
+                      Lunes - Domingo<br />12:00 - 18:00
+                    </p>
+                  </div>
+                </div>
+
+                <div class="d-flex gap-3">
+                  <div class="fs-4 text-primario" aria-hidden="true">📞</div>
+                  <div>
+                    <h3 class="h6 mb-1">WhatsApp</h3>
+                    <p class="text-muted mb-0">+57 301 611 3151</p>
+                  </div>
+                </div>
+              </div>
+              <!-- Mapa -->
+
+              <div class="ratio ratio-16x9 rounded-3 overflow-hidden shadow-sm">
+                <iframe
+                  title="Mapa de Mi Leña – Asados y Refajos"
+                  src="https://www.google.com/maps?q=Mi%20Le%C3%B1a%2084%20Carrera%2058%20%23128%20Bogot%C3%A1&output=embed"
+                  style="border: 0"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  allowfullscreen
+                >
+                </iframe>
+              </div>
+              <a
+                class="btn btn-outline-primario w-100 mt-2"
+                target="_blank"
+                rel="noopener"
+                href="https://www.google.com/maps/dir/?api=1&destination=Mi+Le%C3%B1a+84+Carrera+58+%23128+Bogot%C3%A1"
+                >Cómo llegar</a
+              >
+            </div>
+
+            <!-- Formulario -->
+            <div class="col-lg-6">
+              <form
+                id="formReserva"
+                class="card-ml p-4 needs-validation"
+                novalidate
+                data-no-loader
+              >
+                <div class="row g-2">
+                  <div class="col-12">
+                    <label for="rNombre" class="form-label fw-semibold"
+                      >Nombre y Apellido</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="rNombre"
+                      name="nombre"
+                      placeholder="Ingresa tu nombre"
+                      required
+                      maxlength="80"
+                    />
+                    <div class="invalid-feedback">Escribe tu nombre.</div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label for="rWhatsapp" class="form-label fw-semibold"
+                      >WhatsApp</label
+                    >
+                    <input
+                      type="tel"
+                      class="form-control"
+                      id="rWhatsapp"
+                      name="whatsapp"
+                      inputmode="tel"
+                      placeholder="3001234567"
+                      required
+                    />
+                    <div class="invalid-feedback">Número válido requerido.</div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label for="rEmail" class="form-label fw-semibold"
+                      >Email (opcional)</label
+                    >
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="rEmail"
+                      name="email"
+                      placeholder="tucorreo@ejemplo.com"
+                    />
+                    <div class="invalid-feedback">Revisa tu correo.</div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label for="rHora" class="form-label fw-semibold"
+                      >Hora</label
+                    >
+                    <input
+                      type="time"
+                      class="form-control"
+                      id="rHora"
+                      name="hora"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Elige una hora (12:00–18:00).
+                    </div>
+                    <div class="time-chips mt-2" aria-hidden="true">
+                      <button type="button" class="chip" data-time="12:00">
+                        12:00
+                      </button>
+                      <button type="button" class="chip" data-time="13:00">
+                        13:00
+                      </button>
+                      <button type="button" class="chip" data-time="15:00">
+                        15:00
+                      </button>
+                      <button type="button" class="chip" data-time="17:30">
+                        17:30
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label for="rPersonas" class="form-label fw-semibold"
+                      >Personas</label
+                    >
+                    <div class="input-group">
+                      <button
+                        class="btn btn-outline-primario"
+                        type="button"
+                        data-step="-1"
+                        aria-label="Restar"
+                      >
+                        −
+                      </button>
+                      <input
+                        type="number"
+                        class="form-control text-center"
+                        id="rPersonas"
+                        name="personas"
+                        min="1"
+                        max="20"
+                        value="2"
+                        required
+                      />
+                      <button
+                        class="btn btn-outline-primario"
+                        type="button"
+                        data-step="1"
+                        aria-label="Sumar"
+                      >
+                        +
+                      </button>
+                      <div class="invalid-feedback w-100">
+                        Entre 1 y 20 personas.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label for="rOcas" class="form-label fw-semibold"
+                      >Ocasión</label
+                    >
+                    <select id="rOcas" class="form-select" name="ocasion">
+                      <option value="General">General</option>
+                      <option>Cumpleaños</option>
+                      <option>Aniversario</option>
+                      <option>15 años</option>
+                      <option>Baby Shower</option>
+                      <option>Empresarial</option>
+                    </select>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="rNotas" class="form-label fw-semibold"
+                      >Notas (opcional)</label
+                    >
+                    <textarea
+                      id="rNotas"
+                      class="form-control"
+                      name="notas"
+                      rows="3"
+                      placeholder="¿Alguna preferencia o solicitud especial?"
+                    ></textarea>
+                  </div>
+
+                  <!-- honeypot anti-bots -->
+                  <input
+                    type="text"
+                    class="d-none"
+                    id="rWebsite"
+                    autocomplete="off"
+                    tabindex="-1"
+                    aria-hidden="true"
+                  />
+
+                  <div class="col-12 d-flex flex-wrap gap-2 pt-2">
+                    <button class="btn btn-primario btn-ripple" type="submit">
+                      Reservar
+                    </button>
+                    <button class="btn btn-success" type="button" id="btnWhats">
+                      Enviar por WhatsApp
+                    </button>
+                  </div>
+
+                  <p class="small text-muted mb-0 pt-2">
+                    Al reservar aceptas nuestros términos y política de datos.
+                  </p>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toast de éxito -->
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+          <div
+            id="toastReserva"
+            class="toast align-items-center text-bg-success border-0"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <div class="d-flex">
+              <div class="toast-body">
+                ¡Recibimos tu solicitud de reserva! Te contactaremos por
+                WhatsApp.
+              </div>
+              <button
+                type="button"
+                class="btn-close btn-close-white me-2 m-auto"
+                data-bs-dismiss="toast"
+                aria-label="Cerrar"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+
+      <!-- Botón flotante WhatsApp -->
+      <a
+        href="https://wa.me/573016113151"
+        target="_blank"
+        id="btnWhatsappFlotante"
+      >
+        <i class="bi bi-whatsapp"></i>
+      </a>
+    </main>
+   
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+  </body>
+</html>

@@ -1,30 +1,31 @@
 // ==============================
 // Smooth scroll en links internos
 // ==============================
-(() => {
-  const links = document.querySelectorAll('a.nav-link[href^="#"]');
-  if (!links.length) return;
+// Smooth scroll SOLO en /
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("a.nav-link, a.link-footer");
+  if (!a) return;
 
-  const prefersReduced = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
+  const href = a.getAttribute("href") || a.getAttribute("th:href") || "";
+  // Thymeleaf ya habrá resuelto a "/#menu", "/#reservas", etc.
+  const isAnchorToIndex = href.startsWith("/#");
 
-  links.forEach((a) => {
-    a.addEventListener("click", (e) => {
-      const id = a.getAttribute("href");
-      if (!id || !id.startsWith("#")) return;
-      const target = document.querySelector(id);
-      if (!target) return;
+  if (!isAnchorToIndex) return; // Menú (/menu) u otras rutas: deja pasar
 
-      e.preventDefault();
-      target.scrollIntoView({
-        behavior: prefersReduced ? "auto" : "smooth",
-        block: "start",
-      });
-      history.pushState(null, "", id);
-    });
-  });
-})();
+  const onIndex =
+    location.pathname === "/" || location.pathname.endsWith("/index"); // por si sirves /index
+
+  if (!onIndex) {
+    // NO hagas preventDefault: navega a "/" y luego el # ancla
+    return;
+  }
+
+  // Estás en "/", intercepta y hace smooth-scroll
+  e.preventDefault();
+  const id = href.slice(2); // "/#menu" -> "menu"
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+});
 
 // ====================================
 // Cerrar offcanvas al navegar
@@ -436,113 +437,43 @@
 
 // ==============================
 // Registro: toggle de contraseña + validación básica + microestado de botón
+// Registro: toggle de contraseña + validación (sin interceptar el submit)
 (() => {
   const form = document.getElementById("registerForm");
   if (!form) return;
 
-  const loader = document.getElementById("pageLoader");
   const pass = document.getElementById("password");
   const pass2 = document.getElementById("password2");
   const toggle = document.getElementById("togglePassReg");
   const eye = document.getElementById("icon-eye-reg");
   const eyeOff = document.getElementById("icon-eye-off-reg");
-  const card = document.querySelector(".auth-card");
 
+  // Ojo igual al login
   toggle?.addEventListener("click", () => {
     const isPwd = pass.type === "password";
     pass.type = isPwd ? "text" : "password";
-    eye.classList.toggle("d-none", isPwd);
-    eyeOff.classList.toggle("d-none", !isPwd);
+    eye?.classList.toggle("d-none", isPwd);
+    eyeOff?.classList.toggle("d-none", !isPwd);
+    const pos = pass.value.length;
     pass.focus();
+    pass.setSelectionRange?.(pos, pos);
   });
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    loader.classList.remove("hidden");
-
-    // Validación de contraseñas
-    if (pass.value !== pass2.value) {
+  // Validación de coincidencia en tiempo real (no bloquea el submit por JS)
+  const sync = () => {
+    if (pass2.value && pass2.value !== pass.value) {
       pass2.setCustomValidity("No coincide");
     } else {
       pass2.setCustomValidity("");
     }
+  };
+  pass.addEventListener("input", sync);
+  pass2.addEventListener("input", sync);
 
-    if (!form.checkValidity()) {
-      form.classList.add("was-validated");
-
-      // Animación shake
-      card?.classList.remove("shake");
-      void card?.offsetWidth; // Forzar reflow
-      card?.classList.add("shake");
-
-      setTimeout(() => {
-        loader.classList.add("hidden");
-      }, 2000);
-      return;
-    }
-
-    // microestado del botón
-    const btn = form.querySelector('button[type="submit"]');
-    const html = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = "Creando cuenta…";
-
-    // Simular registro exitoso
-    await new Promise((r) => setTimeout(r, 1000));
-
-    // Redirigir al index
-    window.location.href = "index.html";
-  });
-})();
-
-// ==============================
-// Login: toggle de contraseña + validación básica + microestado de botón
-(() => {
-  const form = document.getElementById("loginForm");
-  if (!form) return;
-
-  const loader = document.getElementById("pageLoader");
-  const pass = document.getElementById("password");
-  const toggle = document.getElementById("togglePass");
-  const eye = document.getElementById("icon-eye");
-  const eyeOff = document.getElementById("icon-eye-off");
-
-  toggle?.addEventListener("click", () => {
-    const isPwd = pass.type === "password";
-    pass.type = isPwd ? "text" : "password";
-    eye.classList.toggle("d-none", isPwd);
-    eyeOff.classList.toggle("d-none", !isPwd);
-    pass.focus();
-  });
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Mostrar loader
-    loader.classList.remove("hidden");
-
-    if (!form.checkValidity()) {
-      form.classList.add("was-validated");
-      setTimeout(() => {
-        loader.classList.add("hidden");
-      }, 2000);
-      return;
-    }
-
-    // microestado del botón
-    const btn = form.querySelector('button[type="submit"]');
-    const html = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = "Entrando…";
-
-    // Simular validación con servidor
-    await new Promise((r) => setTimeout(r, 1000));
-
-    // Redirigir al index
-    window.location.href = "index.html";
+  //  limpiar teléfono
+  const tel = document.getElementById("telefono");
+  tel?.addEventListener("input", () => {
+    tel.value = tel.value.replace(/[^\d+ ]/g, "").slice(0, 20);
   });
 })();
 
@@ -918,159 +849,6 @@ Quiero reservar:
 • Notas: ${notas || "—"}`;
     const url = `https://wa.me/${to}?text=${encodeURIComponent(msg)}`;
     window.open(url, "_blank", "noopener");
-  });
-})();
-// Login: toggle de contraseña + validación básica + microestado de botón
-(() => {
-  const form = document.getElementById("loginForm");
-  if (!form) return;
-
-  const pass = document.getElementById("password");
-  const toggle = document.getElementById("togglePass");
-  const eye = document.getElementById("icon-eye");
-  const eyeOff = document.getElementById("icon-eye-off");
-
-  toggle?.addEventListener("click", () => {
-    const isPwd = pass.type === "password";
-    pass.type = isPwd ? "text" : "password";
-    eye.classList.toggle("d-none", isPwd);
-    eyeOff.classList.toggle("d-none", !isPwd);
-    pass.focus();
-  });
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!form.checkValidity()) {
-      form.classList.add("was-validated");
-      return;
-    }
-
-    // microestado
-    const btn = form.querySelector('button[type="submit"]');
-    const html = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = "Entrando…";
-
-    // simular latencia
-    await new Promise((r) => setTimeout(r, 800));
-
-    btn.disabled = false;
-    btn.innerHTML = html;
-    form.reset();
-  });
-  (() => {
-    const pass = document.getElementById("password");
-    const hint = document.getElementById("capsHint");
-    if (!pass || !hint) return;
-
-    const toggleHint = (e) => {
-      const on = e.getModifierState && e.getModifierState("CapsLock");
-      hint.classList.toggle("d-none", !on);
-    };
-    pass.addEventListener("keydown", toggleHint);
-    pass.addEventListener("keyup", toggleHint);
-    pass.addEventListener("focus", (e) => toggleHint(e));
-    pass.addEventListener("blur", () => hint.classList.add("d-none"));
-  })();
-  (() => {
-    const form = document.getElementById("loginForm");
-    const card = document.querySelector(".auth-card");
-    if (!form || !card) return;
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (!form.checkValidity()) {
-        form.classList.add("was-validated");
-        // marca inputs inválidos para el borde rojo
-        form
-          .querySelectorAll(":invalid")
-          .forEach((el) => el.classList.add("is-invalid"));
-        // shake de la tarjeta
-        card.classList.remove("shake");
-        void card.offsetWidth; // reflow para reiniciar animación
-        card.classList.add("shake");
-        return;
-      } else {
-        form
-          .querySelectorAll(".is-invalid")
-          .forEach((el) => el.classList.remove("is-invalid"));
-      }
-    });
-  })();
-})();
-
-(() => {
-  const form = document.getElementById("registerForm");
-  if (!form) return;
-
-  // Toggle ojo
-  const pass = document.getElementById("password");
-  const toggle = document.getElementById("togglePassReg");
-  const eye = document.getElementById("icon-eye-reg");
-  const eyeOff = document.getElementById("icon-eye-off-reg");
-  toggle?.addEventListener("click", () => {
-    const isPwd = pass.type === "password";
-    pass.type = isPwd ? "text" : "password";
-    eye.classList.toggle("d-none", isPwd);
-    eyeOff.classList.toggle("d-none", !isPwd);
-    pass.focus();
-  });
-
-  // Validación básica + matching de contraseñas + microestado del botón
-  const card = document.querySelector(".auth-card");
-  const pass2 = document.getElementById("password2");
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // match de contraseñas
-    if (pass.value !== pass2.value) {
-      pass2.setCustomValidity("No coincide");
-    } else {
-      pass2.setCustomValidity("");
-    }
-
-    if (!form.checkValidity()) {
-      form.classList.add("was-validated");
-      // marca inputs inválidos
-      form
-        .querySelectorAll(":invalid")
-        .forEach((el) => el.classList.add("is-invalid"));
-      // shake
-      card?.classList.remove("shake");
-      void card?.offsetWidth;
-      card?.classList.add("shake");
-      return;
-    } else {
-      form
-        .querySelectorAll(".is-invalid")
-        .forEach((el) => el.classList.remove("is-invalid"));
-    }
-
-    // microestado del botón
-    const btn = form.querySelector('button[type="submit"]');
-    const html = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = "Creando cuenta…";
-
-    // simular latencia
-    await new Promise((r) => setTimeout(r, 900));
-
-    btn.disabled = false;
-    btn.innerHTML = html;
-    form.reset();
-    form.classList.remove("was-validated");
-  });
-
-  // Tel: limpiar a dígitos
-  const tel = document.getElementById("telefono");
-  tel?.addEventListener("input", () => {
-    tel.value = tel.value.replace(/[^\d+ ]/g, "").slice(0, 20);
   });
 })();
 
@@ -1490,3 +1268,104 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const btnAddToCart = document.querySelectorAll(
+    "[data-bs-target='#modalCarrito']"
+  );
+  const cartBadge = document.getElementById("cartBadge");
+
+  let cartCount = 0;
+
+  btnAddToCart.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      cartCount++;
+      cartBadge.textContent = cartCount;
+      cartBadge.classList.remove("d-none", "animate__fadeOut");
+      cartBadge.classList.add("animate__bounceIn");
+
+      // Después de la animación, limpiamos la clase para que se repita
+      setTimeout(() => {
+        cartBadge.classList.remove("animate__bounceIn");
+      }, 1000);
+    });
+  });
+});
+
+// Login: toggle igual que registro (solo UI, no intercepta submit)
+(() => {
+  const pass = document.getElementById("password");
+  const toggle = document.getElementById("togglePass");
+  const eye = document.getElementById("icon-eye");
+  const eyeOff = document.getElementById("icon-eye-off");
+  const capsHint = document.getElementById("capsHint");
+  if (!pass || !toggle) return;
+
+  toggle.addEventListener("click", () => {
+    const isPwd = pass.type === "password";
+    pass.type = isPwd ? "text" : "password";
+
+    // Igual que en registro: alterna iconos, foco y caret al final
+    eye?.classList.toggle("d-none", isPwd);
+    eyeOff?.classList.toggle("d-none", !isPwd);
+    const pos = pass.value.length;
+    pass.focus();
+    pass.setSelectionRange?.(pos, pos);
+
+    // Accesibilidad
+    toggle.setAttribute("aria-pressed", String(isPwd));
+    toggle.setAttribute(
+      "aria-label",
+      isPwd ? "Ocultar contraseña" : "Mostrar contraseña"
+    );
+  });
+
+  // Hint de CapsLock como en registro
+  const setCaps = (e) => {
+    const on = e.getModifierState && e.getModifierState("CapsLock");
+    capsHint?.classList.toggle("d-none", !on);
+  };
+  pass.addEventListener("keydown", setCaps);
+  pass.addEventListener("keyup", setCaps);
+  pass.addEventListener("focus", setCaps);
+  pass.addEventListener("blur", () => capsHint?.classList.add("d-none"));
+})();
+
+// Register: solo toggle y validación de coincidencia en tiempo real
+(() => {
+  const form = document.getElementById("registerForm");
+  if (!form) return;
+
+  const pass = document.getElementById("password");
+  const pass2 = document.getElementById("password2");
+  const toggle = document.getElementById("togglePassReg");
+  const eye = document.getElementById("icon-eye-reg");
+  const eyeOff = document.getElementById("icon-eye-off-reg");
+
+  toggle?.addEventListener("click", () => {
+    const isPwd = pass.type === "password";
+    pass.type = isPwd ? "text" : "password";
+    eye?.classList.toggle("d-none", isPwd);
+    eyeOff?.classList.toggle("d-none", !isPwd);
+    const pos = pass.value.length;
+    pass.focus();
+    pass.setSelectionRange?.(pos, pos);
+  });
+
+  // valida coincidencia sin bloquear el submit
+  const sync = () => {
+    if (pass2.value && pass2.value !== pass.value) {
+      pass2.setCustomValidity("No coincide");
+    } else {
+      pass2.setCustomValidity("");
+    }
+  };
+  pass.addEventListener("input", sync);
+  pass2.addEventListener("input", sync);
+
+  // (opcional) limpiar teléfono
+  const tel = document.getElementById("telefono");
+  tel?.addEventListener("input", () => {
+    tel.value = tel.value.replace(/[^\d+ ]/g, "").slice(0, 20);
+  });
+})();

@@ -21,6 +21,13 @@
     <link rel="stylesheet" th:href="@{/css/custom.css?v=1}" />
   </head>
   <body>
+    <!-- Loader -->
+    <div id="pageLoader" class="page-loader hidden" aria-hidden="true">
+      <div class="page-loader-inner">
+        <img th:src="@{/assets/Logo1.png}" alt="Mi Leña" class="loader-logo" />
+        <div class="loader-text">Cargando…</div>
+      </div>
+    </div>
     <!-- NAVBAR -->
     <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
