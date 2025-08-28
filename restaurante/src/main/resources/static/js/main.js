@@ -1369,3 +1369,12 @@ document.addEventListener("DOMContentLoaded", () => {
     tel.value = tel.value.replace(/[^\d+ ]/g, "").slice(0, 20);
   });
 })();
+// Inicializar todos los tooltips de Bootstrap
+document.addEventListener("DOMContentLoaded", () => {
+  const tooltipTriggerList = [].slice.call(
+    document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  );
+  tooltipTriggerList.map((tooltipTriggerEl) => {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+});

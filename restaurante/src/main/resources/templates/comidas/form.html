@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title
+      th:text="${comida.id != null ? 'Editar Comida - Mi Leña' : 'Nueva Comida - Mi Leña'}"
+    >
+      Nueva Comida - Mi Leña
+    </title>
+    <link rel="icon" th:href="@{/assets/favicon.png}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/custom.css}" />
+  </head>
+  <body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <main class="site-main">
+      <section class="py-5 bg-dark bg-pattern text-white">
+        <div class="container-xl">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <!-- Encabezado -->
+              <div class="text-center mb-4">
+                <h2
+                  class="text-acento mb-2"
+                  th:text="${comida.id != null ? 'Editar Comida' : 'Nueva Comida'}"
+                >
+                  Nueva Comida
+                </h2>
+                <p class="text-white-75">Complete la información del plato</p>
+              </div>
+
+              <!-- Formulario -->
+              <div class="card-ml p-4">
+                <form
+                  th:action="${comida.id != null ? '/comidas/' + comida.id + '/editar' : '/comidas/nueva'}"
+                  method="post"
+                  th:object="${comida}"
+                  novalidate
+                  class="needs-validation"
+                >
+                  <div class="row g-3">
+                    <!-- Nombre -->
+                    <div class="col-md-6">
+                      <label for="nombre" class="form-label fw-semibold"
+                        >Nombre *</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="nombre"
+                        th:field="*{nombre}"
+                        th:class="${#fields.hasErrors('nombre')} ? 'form-control is-invalid' : 'form-control'"
+                        required
+                      />
+                      <div
+                        class="invalid-feedback"
+                        th:if="${#fields.hasErrors('nombre')}"
+                        th:errors="*{nombre}"
+                      >
+                        Error en nombre
+                      </div>
+                    </div>
+
+                    <!-- Slug -->
+                    <div class="col-md-6">
+                      <label for="slug" class="form-label fw-semibold"
+                        >Slug *</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="slug"
+                        th:field="*{slug}"
+                        th:class="${#fields.hasErrors('slug')} ? 'form-control is-invalid' : 'form-control'"
+                        required
+                      />
+                      <div class="form-text">
+                        URL amigable (ej: churrasco-argentino)
+                      </div>
+                      <div
+                        class="invalid-feedback"
+                        th:if="${#fields.hasErrors('slug')}"
+                        th:errors="*{slug}"
+                      >
+                        Error en slug
+                      </div>
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="col-12">
+                      <label for="descripcion" class="form-label fw-semibold"
+                        >Descripción *</label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="descripcion"
+                        th:field="*{descripcion}"
+                        rows="3"
+                        th:class="${#fields.hasErrors('descripcion')} ? 'form-control is-invalid' : 'form-control'"
+                        required
+                      ></textarea>
+                      <div
+                        class="invalid-feedback"
+                        th:if="${#fields.hasErrors('descripcion')}"
+                        th:errors="*{descripcion}"
+                      >
+                        Error en descripción
+                      </div>
+                    </div>
+
+                    <!-- Precio -->
+                    <div class="col-md-4">
+                      <label for="precio" class="form-label fw-semibold"
+                        >Precio *</label
+                      >
+                      <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="precio"
+                          th:field="*{precio}"
+                          min="1"
+                          step="100"
+                          th:class="${#fields.hasErrors('precio')} ? 'form-control is-invalid' : 'form-control'"
+                          required
+                        />
+                      </div>
+                      <div
+                        class="invalid-feedback"
+                        th:if="${#fields.hasErrors('precio')}"
+                        th:errors="*{precio}"
+                      >
+                        Error en precio
+                      </div>
+                    </div>
+
+                    <!-- Categoría -->
+                    <div class="col-md-4">
+                      <label for="categoria" class="form-label fw-semibold"
+                        >Categoría</label
+                      >
+                      <select
+                        class="form-select"
+                        id="categoria"
+                        th:field="*{categoria}"
+                      >
+                        <option value="">Seleccionar categoría</option>
+                        <option value="res">Res</option>
+                        <option value="pollo">Pollo</option>
+                        <option value="pescado">Pescado</option>
+                        <option value="bebidas">Bebidas</option>
+                        <option value="otros">Otros</option>
+                      </select>
+                    </div>
+
+                    <!-- Estado -->
+                    <div class="col-md-4">
+                      <label class="form-label fw-semibold">Estado</label>
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="activo"
+                          th:field="*{activo}"
+                          th:checked="*{activo}"
+                        />
+                        <label class="form-check-label" for="activo">
+                          Activo (visible en el menú)
+                        </label>
+                      </div>
+                    </div>
+
+                    <!-- URL de imagen -->
+                    <div class="col-12">
+                      <label for="imagenUrl" class="form-label fw-semibold"
+                        >URL de la imagen</label
+                      >
+                      <input
+                        type="url"
+                        class="form-control"
+                        id="imagenUrl"
+                        th:field="*{imagenUrl}"
+                        placeholder="https://ejemplo.com/imagen.jpg"
+                      />
+                      <div class="form-text">
+                        URL completa de la imagen del plato
+                      </div>
+                    </div>
+
+                    <!-- Vista previa de imagen -->
+                    <div class="col-12" th:if="*{imagenUrl}">
+                      <label class="form-label fw-semibold">Vista previa</label>
+                      <div class="text-center">
+                        <img
+                          th:src="*{imagenUrl}"
+                          th:alt="*{nombre}"
+                          class="img-thumbnail"
+                          style="max-height: 200px"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Botones -->
+                  <div class="d-flex gap-3 justify-content-end mt-4">
+                    <a th:href="@{/comidas}" class="btn btn-outline-secondary">
+                      <i class="bi bi-arrow-left"></i> Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-success">
+                      <i class="bi bi-check-lg"></i>
+                      <span
+                        th:text="${comida.id != null ? 'Actualizar' : 'Crear'}"
+                        >Crear</span
+                      >
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+
+    <!-- Script para auto-generar slug -->
+    <script>
+      document.getElementById("nombre").addEventListener("input", function () {
+        const nombre = this.value;
+        const slug = nombre
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9\s]/g, "")
+          .replace(/\s+/g, "-")
+          .trim();
+        document.getElementById("slug").value = slug;
+      });
+
+      // Vista previa de imagen
+      document
+        .getElementById("imagenUrl")
+        .addEventListener("input", function () {
+          // Recargar página para mostrar vista previa (o implementar con JS)
+        });
+    </script>
+  </body>
+</html>

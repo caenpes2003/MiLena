@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Gestión de Clientes - Mi Leña</title>
+    <link rel="icon" th:href="@{/assets/favicon.png}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/custom.css}" />
+  </head>
+  <body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <main class="site-main">
+      <section class="py-5 bg-dark bg-pattern text-white">
+        <div class="container-xl">
+          <!-- Mensajes Flash -->
+          <div
+            th:if="${success}"
+            class="alert alert-success alert-dismissible fade show"
+            role="alert"
+          >
+            <i class="bi bi-check-circle me-2"></i>
+            <span th:text="${success}">Mensaje de éxito</span>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+            ></button>
+          </div>
+
+          <div
+            th:if="${error}"
+            class="alert alert-danger alert-dismissible fade show"
+            role="alert"
+          >
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <span th:text="${error}">Mensaje de error</span>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+            ></button>
+          </div>
+
+          <div
+            th:if="${info}"
+            class="alert alert-info alert-dismissible fade show"
+            role="alert"
+          >
+            <i class="bi bi-info-circle me-2"></i>
+            <span th:text="${info}">Mensaje informativo</span>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+            ></button>
+          </div>
+
+          <!-- Encabezado y acciones -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h2 class="text-acento mb-2">
+                <i class="bi bi-people"></i> Gestión de Clientes
+              </h2>
+              <p class="text-white-75 mb-0">
+                Total de clientes activos:
+                <strong th:text="${totalActivos}">0</strong>
+              </p>
+            </div>
+            <div>
+              <a th:href="@{/clientes/nuevo}" class="btn btn-success">
+                <i class="bi bi-plus-lg"></i> Nuevo Cliente
+              </a>
+            </div>
+          </div>
+
+          <!-- Barra de búsqueda -->
+          <div class="card bg-dark border-secondary p-3 mb-4">
+            <form th:action="@{/clientes/buscar}" method="get" class="row g-3">
+              <div class="col-md-9">
+                <div class="input-group">
+                  <span
+                    class="input-group-text bg-dark text-white border-secondary"
+                  >
+                    <i class="bi bi-search"></i>
+                  </span>
+                  <input
+                    type="text"
+                    class="form-control bg-dark text-white border-secondary"
+                    name="termino"
+                    placeholder="Buscar por nombre, apellido o email..."
+                    th:value="${termino}"
+                    style="
+                      background-color: #212529 !important;
+                      color: #fff !important;
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <button type="submit" class="btn btn-primario w-100">
+                  Buscar
+                </button>
+              </div>
+            </form>
+            <div th:if="${termino}" class="mt-2">
+              <small class="text-white-50">
+                Búsqueda activa: "<span th:text="${termino}"></span>"
+                <a th:href="@{/clientes}" class="text-acento ms-2">
+                  <i class="bi bi-x-circle"></i> Limpiar
+                </a>
+              </small>
+            </div>
+          </div>
+
+          <!-- Tabla de clientes -->
+          <div class="card bg-dark border-secondary p-0">
+            <div class="table-responsive">
+              <table class="table table-dark table-hover mb-0">
+                <thead class="table-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">Dirección</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col" class="text-center">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Lista vacía -->
+                  <tr th:if="${#lists.isEmpty(clientes)}">
+                    <td colspan="7" class="text-center py-4">
+                      <i class="bi bi-inbox fs-1 d-block mb-2 text-muted"></i>
+                      <span class="text-muted"
+                        >No hay clientes registrados</span
+                      >
+                    </td>
+                  </tr>
+
+                  <!-- Lista de clientes -->
+                  <tr th:each="cliente : ${clientes}">
+                    <th scope="row" th:text="${cliente.id}">1</th>
+                    <td>
+                      <strong th:text="${cliente.nombreCompleto}"
+                        >Nombre Completo</strong
+                      >
+                    </td>
+                    <td>
+                      <a
+                        th:href="'mailto:' + ${cliente.email}"
+                        class="text-acento text-decoration-none"
+                        th:text="${cliente.email}"
+                        >email@ejemplo.com</a
+                      >
+                    </td>
+                    <td th:text="${cliente.telefono}">3001234567</td>
+                    <td>
+                      <span
+                        class="text-truncate d-inline-block"
+                        style="max-width: 200px"
+                        th:text="${cliente.direccion}"
+                        th:title="${cliente.direccion}"
+                        >Dirección</span
+                      >
+                    </td>
+                    <td>
+                      <span th:if="${cliente.activo}" class="badge bg-success">
+                        <i class="bi bi-check-circle"></i> Activo
+                      </span>
+                      <span
+                        th:unless="${cliente.activo}"
+                        class="badge bg-danger"
+                      >
+                        <i class="bi bi-x-circle"></i> Inactivo
+                      </span>
+                    </td>
+                    <td>
+                      <div class="d-flex gap-1 justify-content-center">
+                        <!-- Ver detalles -->
+                        <a
+                          th:href="@{/clientes/ver/{id}(id=${cliente.id})}"
+                          class="btn btn-sm btn-outline-info rounded-circle p-2"
+                          title="Ver detalles"
+                          style="
+                            width: 35px;
+                            height: 35px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                          "
+                        >
+                          <i class="bi bi-eye"></i>
+                        </a>
+
+                        <!-- Activar/Desactivar -->
+                        <form
+                          th:if="${cliente.activo}"
+                          th:action="@{/clientes/desactivar/{id}(id=${cliente.id})}"
+                          method="post"
+                          style="display: inline"
+                          onsubmit="return confirm('¿Está seguro de desactivar este cliente?')"
+                        >
+                          <button
+                            type="submit"
+                            class="btn btn-sm btn-outline-secondary rounded-circle p-2"
+                            title="Desactivar"
+                            style="
+                              width: 35px;
+                              height: 35px;
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                            "
+                          >
+                            <i class="bi bi-pause"></i>
+                          </button>
+                        </form>
+
+                        <form
+                          th:unless="${cliente.activo}"
+                          th:action="@{/clientes/activar/{id}(id=${cliente.id})}"
+                          method="post"
+                          style="display: inline"
+                        >
+                          <button
+                            type="submit"
+                            class="btn btn-sm btn-outline-success rounded-circle p-2"
+                            title="Activar"
+                            style="
+                              width: 35px;
+                              height: 35px;
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                            "
+                          >
+                            <i class="bi bi-play"></i>
+                          </button>
+                        </form>
+
+                        <!-- Eliminar -->
+                        <form
+                          th:action="@{/clientes/eliminar/{id}(id=${cliente.id})}"
+                          method="post"
+                          style="display: inline"
+                          onsubmit="return confirm('¿Está seguro de eliminar permanentemente este cliente? Esta acción no se puede deshacer.')"
+                        >
+                          <button
+                            type="submit"
+                            class="btn btn-sm btn-outline-danger rounded-circle p-2"
+                            title="Eliminar"
+                            style="
+                              width: 35px;
+                              height: 35px;
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                            "
+                          >
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Enlaces adicionales -->
+          <div class="mt-4 text-center">
+            <a
+              th:href="@{/clientes/inactivos}"
+              class="btn btn-outline-secondary"
+            >
+              <i class="bi bi-archive"></i> Ver Clientes Inactivos
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+  </body>
+</html>

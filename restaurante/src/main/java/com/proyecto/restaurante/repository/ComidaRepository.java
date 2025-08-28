@@ -1,42 +1,32 @@
 package com.proyecto.restaurante.repository;
 
-import java.util.ArrayList;
+import com.proyecto.restaurante.model.Comida;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
-
-import com.proyecto.restaurante.model.Comida;
-
-import jakarta.annotation.PostConstruct;
-
 @Repository
-public class ComidaRepository {
-
-    private final List<Comida> data = new ArrayList<>();
-
-    @PostConstruct
-    public void init() {
-        data.add(new Comida(1L, "arepa-rellena", "Churrasco Argentino",
-                "Jugosa carne, corte importado.", 12000,
-                "/assets/menu1.png", true));
-
-        data.add(new Comida(2L, "chorizo-sant", "Chorizo santandereano",
-                "Con arepa de maíz pelao.", 15000,
-                "/assets/menu2.png", true));
-
-        data.add(new Comida(3L, "mazorcada", "Mazorcada",
-                "Maíz tierno gratinado.", 18000,
-                "/assets/menu3.png", true));
-    }
-
-    public List<Comida> findAll() {
-        return data;
-    }
-
-    public Optional<Comida> findBySlug(String slug) {
-        return data.stream()
-                .filter(c -> c.getSlug().equals(slug))
-                .findFirst();
-    }
+public interface ComidaRepository extends JpaRepository<Comida, Long> {
+    
+    Optional<Comida> findBySlug(String slug);
+    
+    List<Comida> findByActivoTrue();
+    
+    List<Comida> findByActivoTrueOrderByNombreAsc();
+    
+    List<Comida> findByCategoriaAndActivoTrue(String categoria);
+    
+    @Query("SELECT c FROM Comida c WHERE c.activo = true AND " +
+           "(LOWER(c.nombre) LIKE LOWER(CONCAT('%', :termino, '%')) OR " +
+           "LOWER(c.descripcion) LIKE LOWER(CONCAT('%', :termino, '%')))")
+    List<Comida> buscarPorTermino(@Param("termino") String termino);
+    
+    @Query("SELECT DISTINCT c.categoria FROM Comida c WHERE c.categoria IS NOT NULL AND c.activo = true")
+    List<String> findCategorias();
+    
+    boolean existsBySlug(String slug);
 }

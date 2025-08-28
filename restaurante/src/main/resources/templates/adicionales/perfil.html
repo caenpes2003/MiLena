@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title th:text="'Detalles de ' + ${adicional.nombre} + ' - Mi Leña'">
+      Detalles del Adicional - Mi Leña
+    </title>
+    <link rel="icon" th:href="@{/assets/favicon.png}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/custom.css}" />
+  </head>
+  <body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <main class="site-main">
+      <section class="py-5 bg-dark bg-pattern text-white">
+        <div class="container-xl">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <!-- Encabezado -->
+              <div
+                class="d-flex justify-content-between align-items-center mb-4"
+              >
+                <div>
+                  <h2
+                    class="text-acento mb-1"
+                    th:text="${adicional.nombre}"
+                  >
+                    Nombre Adicional
+                  </h2>
+                  <p class="text-white-75 mb-0">
+                    Adicional ID: <span th:text="${adicional.id}">001</span>
+                  </p>
+                </div>
+                <div>
+                  <span
+                    th:if="${adicional.activo}"
+                    class="badge bg-success fs-6 px-3 py-2"
+                  >
+                    <i class="bi bi-check-circle"></i> Activo
+                  </span>
+                  <span
+                    th:unless="${adicional.activo}"
+                    class="badge bg-danger fs-6 px-3 py-2"
+                  >
+                    <i class="bi bi-x-circle"></i> Inactivo
+                  </span>
+                </div>
+              </div>
+
+              <!-- Información del adicional -->
+              <div class="card-ml p-4 mb-4">
+                <h4 class="text-primario mb-3">
+                  <i class="bi bi-plus-square-fill"></i>
+                  Información del Adicional
+                </h4>
+
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold text-muted"
+                      >Nombre</label
+                    >
+                    <p class="mb-0" th:text="${adicional.nombre}">Adicional</p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold text-muted"
+                      >Precio</label
+                    >
+                    <p class="mb-0" th:text="${adicional.precioFormateado}">$0</p>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label fw-semibold text-muted"
+                      >Descripción</label
+                    >
+                    <p class="mb-0" th:text="${adicional.descripcion ?: 'Sin descripción'}">
+                      Sin descripción
+                    </p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold text-muted"
+                      >Comida Asociada</label
+                    >
+                    <p class="mb-0">
+                      <span
+                        th:if="${adicional.comida != null}"
+                        class="badge bg-dark border border-secondary text-white"
+                        th:text="${adicional.comida.nombre}"
+                      >Comida</span>
+                      <span
+                        th:unless="${adicional.comida != null}"
+                        class="text-white-50"
+                      >General (para todas las comidas)</span>
+                    </p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold text-muted"
+                      >ID Adicional</label
+                    >
+                    <p class="mb-0 font-monospace">
+                      #<span th:text="${adicional.id}">001</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Información adicional -->
+              <div class="card-ml p-4 mb-4" th:if="${adicional.comida != null}">
+                <h4 class="text-primario mb-3">
+                  <i class="bi bi-egg-fried"></i>
+                  Información de la Comida Asociada
+                </h4>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold text-muted"
+                      >Nombre de la Comida</label
+                    >
+                    <p class="mb-0">
+                      <a
+                        th:href="@{/comidas/{id}(id=${adicional.comida.id})}"
+                        class="text-white text-decoration-none"
+                        th:text="${adicional.comida.nombre}"
+                      >Nombre Comida</a>
+                    </p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold text-muted"
+                      >Precio de la Comida</label
+                    >
+                    <p class="mb-0" th:text="${adicional.comida.precioFormateado}">$0</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Acciones -->
+              <div class="d-flex gap-3 justify-content-between">
+                <a th:href="@{/adicionales}" class="btn btn-outline-secondary">
+                  <i class="bi bi-arrow-left"></i> Volver a la lista
+                </a>
+
+                <div class="d-flex gap-2">
+                  <!-- Editar -->
+                  <a
+                    th:href="@{/adicionales/{id}/editar(id=${adicional.id})}"
+                    class="btn btn-warning"
+                  >
+                    <i class="bi bi-pencil"></i> Editar
+                  </a>
+
+                  <!-- Activar/Desactivar -->
+                  <form
+                    th:if="${adicional.activo}"
+                    th:action="@{/adicionales/{id}/toggle(id=${adicional.id})}"
+                    method="post"
+                    style="display: inline"
+                    onsubmit="return confirm('¿Está seguro de desactivar este adicional?')"
+                  >
+                    <button type="submit" class="btn btn-secondary">
+                      <i class="bi bi-pause"></i> Desactivar
+                    </button>
+                  </form>
+
+                  <form
+                    th:unless="${adicional.activo}"
+                    th:action="@{/adicionales/{id}/toggle(id=${adicional.id})}"
+                    method="post"
+                    style="display: inline"
+                  >
+                    <button type="submit" class="btn btn-success">
+                      <i class="bi bi-play"></i> Activar
+                    </button>
+                  </form>
+
+                  <!-- Eliminar -->
+                  <form
+                    th:action="@{/adicionales/{id}/eliminar(id=${adicional.id})}"
+                    method="post"
+                    style="display: inline"
+                    onsubmit="return confirm('¿Está seguro de eliminar permanentemente este adicional? Esta acción no se puede deshacer.')"
+                  >
+                    <button type="submit" class="btn btn-danger">
+                      <i class="bi bi-trash"></i> Eliminar
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+  </body>
+</html>

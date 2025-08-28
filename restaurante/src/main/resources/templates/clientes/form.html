@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title
+      th:text="${cliente.id != null ? 'Editar Cliente - Mi Leña' : 'Nuevo Cliente - Mi Leña'}"
+    >
+      Nuevo Cliente - Mi Leña
+    </title>
+    <link rel="icon" th:href="@{/assets/favicon.png}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/custom.css}" />
+  </head>
+  <body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <main class="site-main">
+      <section class="py-5 bg-dark bg-pattern text-white">
+        <div class="container-xl">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <!-- Encabezado -->
+              <div class="text-center mb-4">
+                <h2
+                  class="text-acento mb-2"
+                  th:text="${cliente.id != null ? 'Editar Cliente' : 'Nuevo Cliente'}"
+                >
+                  Nuevo Cliente
+                </h2>
+                <p class="text-white-75">Complete la información del cliente</p>
+              </div>
+
+              <!-- Formulario -->
+              <div class="card-ml p-4">
+                <form
+                  th:action="${cliente.id} != null ? @{/clientes/{id}/editar(id=${cliente.id})} : @{/clientes/nuevo}"
+                  method="post"
+                  th:object="${cliente}"
+                  novalidate
+                  class="needs-validation"
+                >
+                  <div class="row g-3">
+                    <!-- Nombre -->
+                    <div class="col-md-6">
+                      <label for="nombre" class="form-label fw-semibold"
+                        >Nombre *</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="nombre"
+                        th:field="*{nombre}"
+                        th:class="${#fields.hasErrors('nombre')} ? 'form-control is-invalid' : 'form-control'"
+                        placeholder="Ingrese el nombre"
+                        required
+                      />
+                      <div
+                        class="invalid-feedback"
+                        th:if="${#fields.hasErrors('nombre')}"
+                        th:errors="*{nombre}"
+                      >
+                        Error en nombre
+                      </div>
+                    </div>
+
+                    <!-- Apellido -->
+                    <div class="col-md-6">
+                      <label for="apellido" class="form-label fw-semibold"
+                        >Apellido *</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="apellido"
+                        th:field="*{apellido}"
+                        th:class="${#fields.hasErrors('apellido')} ? 'form-control is-invalid' : 'form-control'"
+                        placeholder="Ingrese el apellido"
+                        required
+                      />
+                      <div
+                        class="invalid-feedback"
+                        th:if="${#fields.hasErrors('apellido')}"
+                        th:errors="*{apellido}"
+                      >
+                        Error en apellido
+                      </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-md-6">
+                      <label for="email" class="form-label fw-semibold"
+                        >Email *</label
+                      >
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        th:field="*{email}"
+                        th:class="${#fields.hasErrors('email')} ? 'form-control is-invalid' : 'form-control'"
+                        placeholder="ejemplo@correo.com"
+                        required
+                      />
+                      <div
+                        class="invalid-feedback"
+                        th:if="${#fields.hasErrors('email')}"
+                        th:errors="*{email}"
+                      >
+                        Error en email
+                      </div>
+                    </div>
+
+                    <!-- Teléfono -->
+                    <div class="col-md-6">
+                      <label for="telefono" class="form-label fw-semibold"
+                        >Teléfono *</label
+                      >
+                      <input
+                        type="tel"
+                        class="form-control"
+                        id="telefono"
+                        th:field="*{telefono}"
+                        th:class="${#fields.hasErrors('telefono')} ? 'form-control is-invalid' : 'form-control'"
+                        placeholder="300 123 4567"
+                        required
+                      />
+                      <div
+                        class="invalid-feedback"
+                        th:if="${#fields.hasErrors('telefono')}"
+                        th:errors="*{telefono}"
+                      >
+                        Error en teléfono
+                      </div>
+                    </div>
+
+                    <!-- Dirección -->
+                    <div class="col-12">
+                      <label for="direccion" class="form-label fw-semibold"
+                        >Dirección *</label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="direccion"
+                        th:field="*{direccion}"
+                        rows="2"
+                        th:class="${#fields.hasErrors('direccion')} ? 'form-control is-invalid' : 'form-control'"
+                        placeholder="Calle 123 #45-67, Barrio, Ciudad"
+                        required
+                      ></textarea>
+                      <div
+                        class="invalid-feedback"
+                        th:if="${#fields.hasErrors('direccion')}"
+                        th:errors="*{direccion}"
+                      >
+                        Error en dirección
+                      </div>
+                    </div>
+
+                    <!-- Contraseña para nuevos clientes -->
+                    <div class="col-md-6" th:if="${cliente.id == null}">
+                      <label for="password" class="form-label fw-semibold"
+                        >Contraseña *</label
+                      >
+                      <div class="input-group">
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="password"
+                          th:field="*{password}"
+                          th:class="${#fields.hasErrors('password')} ? 'form-control is-invalid' : 'form-control'"
+                          required
+                          minlength="8"
+                          placeholder="Mínimo 8 caracteres"
+                        />
+                        <button
+                          class="btn btn-outline-secondary"
+                          type="button"
+                          onclick="togglePassword('password')"
+                          title="Mostrar/Ocultar contraseña"
+                        >
+                          <i class="bi bi-eye" id="passwordToggleIcon"></i>
+                        </button>
+                      </div>
+                      <div
+                        class="invalid-feedback"
+                        th:if="${#fields.hasErrors('password')}"
+                        th:errors="*{password}"
+                      >
+                        Error en contraseña
+                      </div>
+                    </div>
+
+                    <!-- Campo vacío para alineación cuando es nuevo cliente -->
+                    <div class="col-md-6" th:if="${cliente.id == null}">
+                      <!-- Espacio para mantener la alineación -->
+                    </div>
+
+                    <!-- Nota para cambio de contraseña al editar -->
+                    <div class="col-12" th:if="${cliente.id != null}">
+                      <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Cambio de contraseña:</strong> Para cambiar la
+                        contraseña de este cliente, use la opción específica
+                        "Cambiar Contraseña" disponible en el perfil del cliente
+                        o en la lista de clientes.
+                      </div>
+                    </div>
+
+                    <!-- Estado -->
+                    <div class="col-md-6">
+                      <label class="form-label fw-semibold">Estado</label>
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="activo"
+                          th:field="*{activo}"
+                        />
+                        <label class="form-check-label" for="activo">
+                          Cliente activo
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Botones -->
+                  <div class="d-flex gap-3 justify-content-end mt-4">
+                    <a th:href="@{/clientes}" class="btn btn-outline-secondary">
+                      <i class="bi bi-arrow-left"></i> Cancelar
+                    </a>
+                    <button
+                      type="submit"
+                      class="btn btn-success"
+                      formnovalidate
+                    >
+                      <i class="bi bi-check-lg"></i>
+                      <span
+                        th:text="${cliente.id != null ? 'Actualizar' : 'Crear'}"
+                        >Crear</span
+                      >
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      (() => {
+        const form = document.querySelector("form.needs-validation");
+        if (!form) return;
+        form.addEventListener(
+          "submit",
+          (e) => {
+            // Si el form no es válido, sí bloquea:
+            if (!form.checkValidity()) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+            // Visual de Bootstrap (opcional)
+            form.classList.add("was-validated");
+          },
+          false
+        );
+      })();
+    </script>
+
+    <!--<script th:src="@{/js/main.js}"></script>
+
+     Scripts para validación y formateo 
+    <script>
+      // Formatear teléfono
+      document
+        .getElementById("telefono")
+        .addEventListener("input", function () {
+          this.value = this.value.replace(/[^\d]/g, "").substring(0, 15);
+        });
+
+      // Toggle mostrar/ocultar contraseña
+      function togglePassword(fieldId) {
+        const passwordInput = document.getElementById(fieldId);
+        const icon = document.getElementById(fieldId + "ToggleIcon");
+
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          icon.classList.remove("bi-eye");
+          icon.classList.add("bi-eye-slash");
+        } else {
+          passwordInput.type = "password";
+          icon.classList.remove("bi-eye-slash");
+          icon.classList.add("bi-eye");
+        }
+      }
+    </script>-->
+  </body>
+</html>

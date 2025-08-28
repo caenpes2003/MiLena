@@ -48,12 +48,6 @@
           </div>
 
           <!-- toggle separado, debajo o arriba -->
-          <div class="d-flex justify-content-center mb-4">
-            <div class="btn-group menu-toggle" role="tablist">
-              <a th:href="@{/menu}" class="btn btn-switch">Tarjetas</a>
-              <a th:href="@{/menu/table}" class="btn btn-switch">Tabla</a>
-            </div>
-          </div>
 
           <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
             <div class="col" th:each="c : ${items}">

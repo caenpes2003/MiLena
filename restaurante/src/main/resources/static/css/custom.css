@@ -36,7 +36,22 @@
   color: var(--acento) !important;
 }
 .text-white-75 {
+  
   color: rgba(255, 255, 255, 0.75) !important;
+}
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* === ESTILOS PARA TÍTULOS DE FORMULARIOS === */
+.form-label.fw-semibold {
+  color: #ffd54f !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 .border-white-25 {
   border-color: rgba(255, 255, 255, 0.25) !important;
@@ -2405,5 +2420,360 @@ main section {
 }
 /* Texto de descripción en producto */
 .product-hero p {
+  color: #fff !important;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+/* Solo dentro de la tarjeta del form de comidas */
+.card-ml form .form-label,
+.card-ml form .form-text,
+.card-ml form .form-check-label {
+  color: #111 !important; /* negro */
+}
+
+.card-ml form .input-group-text {
+  color: #111;
+  background-color: #f4f4f4;
+  border-color: #ced4da;
+}
+.card-ml form .form-control:focus,
+.card-ml form .form-select:focus,
+.card-ml form .form-check-input:focus,
+.card-ml form .btn:focus {
+  border-color: #b30000;
+  box-shadow: 0 0 0 0.25rem rgba(179, 0, 0, 0.25);
+}
+.card-ml form .form-check-input:checked {
+  background-color: #b30000;
+  border-color: #b30000;
+}
+
+.form-control::placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+.btn-outline-info,
+.btn-outline-warning,
+.btn-outline-secondary,
+.btn-outline-success,
+.btn-outline-danger {
+  border-width: 1.5px;
+}
+
+/* Input group oscuro del buscador */
+.search-dark .input-group-text {
+  background-color: #1e1e1e;
+  color: #eaeaea;
+  border-color: #444;
+}
+.search-dark .form-control {
+  background-color: #121212;
+  color: #f0f0f0;
+  border-color: #444;
+}
+.search-dark .form-control::placeholder {
+  color: #9aa0a6;
+  opacity: 1;
+}
+.search-dark .form-control:focus {
+  border-color: #b30000; /* rojo parrilla */
+  box-shadow: 0 0 0 0.2rem rgba(179, 0, 0, 0.25);
+}
+
+/* ===== FIXES PARA GESTIÓN DE CLIENTES ===== */
+
+/* Fix 1: Barra de búsqueda oscura dentro de card-ml */
+.card-ml .search-dark .input-group-text {
+  background-color: #1e1e1e !important;
+  color: #eaeaea !important;
+  border-color: #444 !important;
+}
+
+.card-ml .search-dark .form-control {
+  background-color: #121212 !important;
+  color: #f0f0f0 !important;
+  border-color: #444 !important;
+}
+
+.card-ml .search-dark .form-control::placeholder {
+  color: #9aa0a6 !important;
+  opacity: 1;
+}
+
+.card-ml .search-dark .form-control:focus {
+  background-color: #1a1a1a !important;
+  color: #f0f0f0 !important;
+  border-color: #b30000 !important;
+  box-shadow: 0 0 0 0.2rem rgba(179, 0, 0, 0.25) !important;
+}
+
+/* Fix 2: Mejor contraste para card-ml en fondo oscuro */
+.bg-dark .card-ml {
+  background: #1a1a1a !important;
+  color: #f1f5f9 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bg-dark .card-ml .table-dark {
+  background: transparent !important;
+}
+/* Etiquetas (Nombre, Apellido, Email, etc.) */
+.bg-dark .card-ml .form-label,
+.bg-dark .card-ml .text-muted,
+.bg-dark .card-ml .text-body-secondary {
+  color: var(--acento) !important; /* dorado de marca para resaltar */
+  font-weight: 600 !important; /* peso más fuerte */
+  text-shadow: 0 0 3px rgba(255, 213, 79, 0.3) !important; /* sombra sutil dorada */
+  text-transform: uppercase !important; /* mayúsculas para mayor presencia */
+  letter-spacing: 0.5px !important; /* espaciado para mejor legibilidad */
+}
+/* Valores (por si algún navegador hereda gris) */
+.bg-dark .card-ml p,
+.bg-dark .card-ml .value {
+  color: #e9eef3 !important;
+}
+/* Links dentro de la card (email, tel) */
+.bg-dark .card-ml a {
+  color: #e9eef3 !important; /* blanco para email y teléfono */
+  text-decoration: none;
+}
+.bg-dark .card-ml a:hover {
+  color: var(--acento) !important; /* dorado al hover */
+  text-decoration: underline;
+}
+
+/* Títulos de secciones mejorados para fondo oscuro */
+.bg-dark .card-ml .text-primario {
+  color: var(--acento) !important; /* dorado en lugar de rojo */
+  font-weight: 700 !important;
+  text-shadow: 0 0 8px rgba(255, 202, 40, 0.4) !important; /* sombra dorada más pronunciada */
+  position: relative;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem !important;
+}
+
+/* Línea decorativa debajo del título */
+.bg-dark .card-ml .text-primario:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--acento), transparent);
+  border-radius: 2px;
+}
+
+/* Fix 3: Ajuste de botones circulares para mejor alineación */
+.btn.rounded-circle {
+  width: 35px !important;
+  height: 35px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+}
+
+/* Fix 4: Mejora visual de los badges en tabla oscura */
+.table-dark .badge {
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+}
+
+/* Fix 5: Hover mejorado para filas de tabla en tema oscuro */
+.table-dark.table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.075) !important;
+}
+
+/* Fix 6: Mejora de mensajes flash sobre fondo oscuro */
+.bg-dark .alert {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bg-dark .alert-success {
+  background-color: rgba(25, 135, 84, 0.2);
+  color: #75d9b3;
+  border-color: rgba(25, 135, 84, 0.3);
+}
+
+.bg-dark .alert-danger {
+  background-color: rgba(220, 53, 69, 0.2);
+  color: #f1aeb5;
+  border-color: rgba(220, 53, 69, 0.3);
+}
+
+.bg-dark .alert-info {
+  background-color: rgba(13, 202, 240, 0.2);
+  color: #6edff6;
+  border-color: rgba(13, 202, 240, 0.3);
+}
+
+/* Fix 7: Mejora de contraste en textos de estadísticas */
+.bg-dark .card.border-secondary {
+  background: #1a1a1a !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.bg-dark .card.border-secondary .text-white-50 {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Fix 8: Botón primario más visible en fondo oscuro */
+.bg-dark .btn-primario {
+  background: var(--primario);
+  border-color: var(--primario);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(119, 0, 0, 0.3);
+}
+
+.bg-dark .btn-primario:hover {
+  background: #8a0000;
+  border-color: #8a0000;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(119, 0, 0, 0.4);
+}
+
+/* ===== CORRECCIONES PARA MÓDULO DE CLIENTES ===== */
+
+/* Fix 1: Forzar el color rojo en el focus de inputs oscuros */
+.bg-dark .form-control:focus,
+.bg-dark .form-select:focus,
+.bg-dark input.form-control:focus,
+.bg-dark input[type="text"]:focus,
+.bg-dark input[type="email"]:focus,
+.bg-dark input[type="tel"]:focus,
+.bg-dark textarea:focus {
+  background-color: #212529 !important;
+  border-color: #b30000 !important;
+  box-shadow: 0 0 0 0.25rem rgba(179, 0, 0, 0.25) !important;
+  color: #fff !important;
+  outline: none !important;
+}
+
+/* Fix 2: Input group con fondo oscuro */
+.bg-dark .input-group-text {
+  background-color: #212529 !important;
+  border-color: #495057 !important;
+  color: #fff !important;
+}
+
+/* Fix 3: Placeholder en inputs oscuros */
+.bg-dark .form-control::placeholder {
+  color: #6c757d !important;
+  opacity: 1 !important;
+}
+
+/* Fix 4: Hover en inputs oscuros */
+.bg-dark .form-control:hover:not(:focus) {
+  border-color: #6c757d !important;
+}
+
+/* Fix 5: Fondo más suave para inputs en fondo oscuro */
+.bg-dark .form-control,
+.bg-dark .form-select,
+.bg-dark textarea {
+  background-color: #f8f9faa0 !important; /* blanco muy suave */
+  
+  color: #212529 !important;
+}
+
+/* Fix 6: Color del texto de switch en fondo oscuro */
+.bg-dark .card-ml .form-check-label {
+  color: #e9eef3 !important; /* blanco suave en lugar de negro */
+}
+
+/* Fix 7: Evitar subrayado en botones al hacer hover */
+.btn:hover,
+.btn-outline-secondary:hover,
+.btn:focus,
+.btn:active {
+  text-decoration: none !important;
+}
+
+/* Fix 8: Botones de acción circulares - hover con colores temáticos */
+.btn-outline-info.rounded-circle:hover {
+  background-color: #0dcaf0 !important; /* azul info */
+  border-color: #0dcaf0 !important;
+  color: #000 !important; /* icono negro */
+}
+
+.btn-outline-secondary.rounded-circle:hover {
+  background-color: #6c757d !important; /* gris */
+  border-color: #6c757d !important;
+  color: #fff !important; /* icono blanco */
+}
+
+.btn-outline-success.rounded-circle:hover {
+  background-color: #6c757d !important; /* gris para activar también */
+  border-color: #6c757d !important;
+  color: #fff !important; /* icono blanco */
+}
+
+/* El botón de eliminar (danger) mantiene su comportamiento por defecto */
+
+/* Fix 5: Asegurar que la tabla sea completamente oscura */
+.bg-dark .table-dark {
+  --bs-table-bg: #212529 !important;
+  background-color: #212529 !important;
+}
+
+.bg-dark .table-dark td,
+.bg-dark .table-dark th {
+  background-color: transparent !important;
+  color: #fff !important;
+}
+
+/* Fix 6: Botones circulares perfectamente centrados */
+.btn.rounded-circle {
+  width: 35px !important;
+  height: 35px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  font-size: 14px !important;
+}
+
+/* Fix 7: Card oscuro en sección oscura */
+.bg-dark .card {
+  background-color: #212529 !important;
+  border-color: #495057 !important;
+  color: #fff !important;
+}
+
+/* Fix 8: Alertas sobre fondo oscuro */
+.bg-dark .alert-success {
+  background-color: rgba(25, 135, 84, 0.2) !important;
+  border-color: rgba(25, 135, 84, 0.3) !important;
+  color: #75d9b3 !important;
+}
+
+.bg-dark .alert-danger {
+  background-color: rgba(220, 53, 69, 0.2) !important;
+  border-color: rgba(220, 53, 69, 0.3) !important;
+  color: #f1aeb5 !important;
+}
+
+.bg-dark .alert-info {
+  background-color: rgba(13, 202, 240, 0.2) !important;
+  border-color: rgba(13, 202, 240, 0.3) !important;
+  color: #6edff6 !important;
+}
+
+/* Fix 9: Específico para la barra de búsqueda en lista de clientes */
+#clientes-busqueda input.form-control:focus {
+  background-color: #212529 !important;
+  border-color: #b30000 !important;
+  box-shadow: 0 0 0 0.25rem rgba(179, 0, 0, 0.25) !important;
   color: #fff !important;
 }

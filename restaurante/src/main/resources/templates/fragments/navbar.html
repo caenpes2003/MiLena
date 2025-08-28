@@ -65,12 +65,41 @@
           >
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link fw-semibold fs-5" th:href="@{'/' + '#contacto'}"
-            >Contacto</a
+        <!-- Gestión solo si hay sesión activa -->
+        <div
+          th:if="${session.clienteLogueado != null}"
+          class="d-flex align-items-center gap-3 ms-3"
+        >
+          <a
+            class="nav-link fs-5 d-flex align-items-center"
+            th:href="@{/comidas}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="Gestiona los platos"
           >
-        </li>
-        <li class="nav-item ms-3">
+            <i class="bi bi-egg-fried fs-4"></i>
+          </a>
+          <a
+            class="nav-link fs-5 d-flex align-items-center"
+            th:href="@{/clientes}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="Gestiona los clientes"
+          >
+            <i class="bi bi-people fs-4"></i>
+          </a>
+          <a
+            class="nav-link fs-5 d-flex align-items-center"
+            th:href="@{/adicionales}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="Gestiona los adicionales"
+          >
+            <i class="bi bi-plus-square fs-4"></i>
+          </a>
+        </div>
+
+        <li class="nav-item">
           <a href="/login" class="nav-link position-relative">
             <i class="bi bi-cart fs-4"></i>
             <span
@@ -83,17 +112,34 @@
           </a>
         </li>
       </ul>
+
+      <!-- Botones de autenticación -->
       <div class="d-flex align-items-center gap-2">
-        <a
-          th:href="@{/login}"
-          class="btn btn-pill-outline-auth btn-ripple"
-          style
+        <!-- Si NO está logueado -->
+        <div th:if="${session.clienteLogueado == null}">
+          <a th:href="@{/login}" class="btn btn-pill-outline-auth btn-ripple">
+            Iniciar sesión
+          </a>
+          <a th:href="@{/register}" class="btn btn-pill-solid-auth btn-ripple">
+            Regístrate
+          </a>
+        </div>
+
+        <!-- Si SÍ está logueado -->
+        <div
+          th:unless="${session.clienteLogueado == null}"
+          class="d-flex align-items-center gap-2"
         >
-          Iniciar sesión</a
-        >
-        <a th:href="@{/register}" class="btn btn-pill-solid-auth btn-ripple"
-          >Regístrate</a
-        >
+          <span class="text-white me-2" th:text="${session.clienteNombre}"
+            >Usuario</span
+          >
+          <a th:href="@{/perfil}" class="btn btn-outline-light btn-sm">
+            <i class="bi bi-person"></i> Mi Perfil
+          </a>
+          <a th:href="@{/logout}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-box-arrow-right"></i> Salir
+          </a>
+        </div>
       </div>
     </div>
 
@@ -124,14 +170,69 @@
           <li>
             <a class="nav-link" th:href="@{'/' + '#contacto'}">Contacto</a>
           </li>
+
+          <!-- Admin links móvil -->
+          <div
+            th:if="${session.clienteLogueado != null}"
+            class="d-flex gap-3 mt-3"
+          >
+            <a
+              class="nav-link text-warning fs-4"
+              th:href="@{/comidas}"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="Administra comidas"
+            >
+              <i class="bi bi-egg-fried"></i>
+            </a>
+            <a
+              class="nav-link text-warning fs-4"
+              th:href="@{/clientes}"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="Administra clientes"
+            >
+              <i class="bi bi-people"></i>
+            </a>
+            <a
+              class="nav-link text-warning fs-4"
+              th:href="@{/adicionales}"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="Administra adicionales"
+            >
+              <i class="bi bi-plus-square"></i>
+            </a>
+          </div>
         </ul>
+
+        <!-- Botones móvil -->
         <div class="mt-3 d-grid gap-2">
-          <a th:href="@{/login}" class="btn btn-pill-outline-auth w-100"
-            >Iniciar sesión</a
-          >
-          <a th:href="@{/register}" class="btn btn-pill-solid-auth w-100"
-            >Regístrate</a
-          >
+          <!-- Si NO está logueado -->
+          <div th:if="${session.clienteLogueado == null}">
+            <a th:href="@{/login}" class="btn btn-pill-outline-auth w-100">
+              Iniciar sesión
+            </a>
+            <a th:href="@{/register}" class="btn btn-pill-solid-auth w-100">
+              Regístrate
+            </a>
+          </div>
+
+          <!-- Si SÍ está logueado -->
+          <div th:unless="${session.clienteLogueado == null}">
+            <p
+              class="text-white mb-2"
+              th:text="'Hola, ' + ${session.clienteNombre}"
+            >
+              Hola, Usuario
+            </p>
+            <a th:href="@{/perfil}" class="btn btn-outline-light w-100 mb-2">
+              Mi Perfil
+            </a>
+            <a th:href="@{/logout}" class="btn btn-outline-secondary w-100">
+              Cerrar Sesión
+            </a>
+          </div>
         </div>
       </div>
     </div>
