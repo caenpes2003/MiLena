@@ -3,16 +3,17 @@
 // ===============================
 package com.proyecto.restaurante.service.impl;
 
-import com.proyecto.restaurante.model.Adicional;
-import com.proyecto.restaurante.model.Comida;
-import com.proyecto.restaurante.repository.AdicionalRepository;
-import com.proyecto.restaurante.service.IAdicionalService;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import com.proyecto.restaurante.model.Adicional;
+import com.proyecto.restaurante.model.Comida;
+import com.proyecto.restaurante.repository.AdicionalRepository;
+import com.proyecto.restaurante.service.IAdicionalService;
 
 @Service
 @Transactional
@@ -111,5 +112,17 @@ public class AdicionalServiceImpl implements IAdicionalService {
     @Transactional(readOnly = true)
     public long contarPorComida(Long comidaId) {
         return adicionalRepository.countByComidaIdAndActivoTrue(comidaId);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<Adicional> obtenerSinAsignar() {
+        return adicionalRepository.findByComidaIsNullAndActivoTrue();
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<Adicional> obtenerTodosSinAsignar() {
+        return adicionalRepository.findByComidaIsNull();
     }
 }

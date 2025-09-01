@@ -25,4 +25,8 @@ public interface IAdicionalService {
     
     // Estadísticas
     long contarPorComida(Long comidaId);
+    
+    // Gestión de asignaciones
+    List<Adicional> obtenerSinAsignar();
+    List<Adicional> obtenerTodosSinAsignar();
 }
