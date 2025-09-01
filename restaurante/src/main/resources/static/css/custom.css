@@ -36,8 +36,7 @@
   color: var(--acento) !important;
 }
 .text-white-75 {
-  
-  color: rgba(255, 255, 255, 0.75) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
 }
 .text-shadow {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3) !important;
@@ -2432,9 +2431,13 @@ main section {
 }
 /* Solo dentro de la tarjeta del form de comidas */
 .card-ml form .form-label,
-.card-ml form .form-text,
+.card-ml form .form-text:not(.text-white-75),
 .card-ml form .form-check-label {
   color: #111 !important; /* negro */
+}
+
+.card-ml form .form-text.text-white-75 {
+  color: rgba(255, 255, 255, 0.9) !important; /* blanco para fondo oscuro */
 }
 
 .card-ml form .input-group-text {
@@ -2699,26 +2702,54 @@ main section {
   text-decoration: none !important;
 }
 
-/* Fix 8: Botones de acción circulares - hover con colores temáticos */
-.btn-outline-info.rounded-circle:hover {
-  background-color: #0dcaf0 !important; /* azul info */
+/* Fix 8: Botones de acción circulares - colores de icono igual al borde */
+.btn-outline-info.rounded-circle,
+.btn-outline-info.rounded-circle i {
+  color: #0dcaf0 !important; /* icono del mismo color que el borde */
+  transition: all 0.15s ease-in-out !important;
+}
+.btn-outline-info.rounded-circle:hover,
+.btn-outline-info.rounded-circle:hover i {
+  background-color: #0dcaf0 !important; /* fondo azul info */
   border-color: #0dcaf0 !important;
-  color: #000 !important; /* icono negro */
+  color: #000 !important; /* icono negro al hover */
 }
 
-.btn-outline-secondary.rounded-circle:hover {
-  background-color: #6c757d !important; /* gris */
-  border-color: #6c757d !important;
-  color: #fff !important; /* icono blanco */
+.btn-outline-warning.rounded-circle,
+.btn-outline-warning.rounded-circle i {
+  color: #ffc107 !important; /* icono del mismo color que el borde */
+  transition: all 0.15s ease-in-out !important;
+}
+.btn-outline-warning.rounded-circle:hover,
+.btn-outline-warning.rounded-circle:hover i {
+  background-color: #ffc107 !important; /* fondo amarillo warning */
+  border-color: #ffc107 !important;
+  color: #000 !important; /* icono negro al hover */
 }
 
-.btn-outline-success.rounded-circle:hover {
-  background-color: #6c757d !important; /* gris para activar también */
-  border-color: #6c757d !important;
-  color: #fff !important; /* icono blanco */
+.btn-outline-success.rounded-circle,
+.btn-outline-success.rounded-circle i {
+  color: #198754 !important; /* icono del mismo color que el borde */
+  transition: all 0.15s ease-in-out !important;
+}
+.btn-outline-success.rounded-circle:hover,
+.btn-outline-success.rounded-circle:hover i {
+  background-color: #198754 !important; /* fondo verde success */
+  border-color: #198754 !important;
+  color: #000 !important; /* icono negro al hover */
 }
 
-/* El botón de eliminar (danger) mantiene su comportamiento por defecto */
+.btn-outline-danger.rounded-circle,
+.btn-outline-danger.rounded-circle i {
+  color: #dc3545 !important; /* icono del mismo color que el borde */
+  transition: all 0.15s ease-in-out !important;
+}
+.btn-outline-danger.rounded-circle:hover,
+.btn-outline-danger.rounded-circle:hover i {
+  background-color: #dc3545 !important; /* fondo rojo danger */
+  border-color: #dc3545 !important;
+  color: #fff !important; /* icono blanco al hover (especial para eliminar) */
+}
 
 /* Fix 5: Asegurar que la tabla sea completamente oscura */
 .bg-dark .table-dark {
@@ -2742,6 +2773,8 @@ main section {
   justify-content: center !important;
   line-height: 1 !important;
   font-size: 14px !important;
+  transition: all 0.15s ease-in-out !important;
+  overflow: hidden !important;
 }
 
 /* Fix 7: Card oscuro en sección oscura */
@@ -2775,5 +2808,56 @@ main section {
   background-color: #212529 !important;
   border-color: #b30000 !important;
   box-shadow: 0 0 0 0.25rem rgba(179, 0, 0, 0.25) !important;
+  color: #fff !important;
+}
+
+/* Fix 10: Accordion dark theme para la página de adicionales */
+.accordion-item {
+  background-color: #212529 !important;
+  border-color: #495057 !important;
+}
+
+.accordion-button {
+  background-color: #212529 !important;
+  color: #fff !important;
+  border-color: #495057 !important;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #343a40 !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+.accordion-button:focus {
+  border-color: #495057 !important;
+  box-shadow: 0 0 0 0.25rem rgba(179, 0, 0, 0.25) !important;
+}
+
+.accordion-button::after {
+  filter: invert(1);
+}
+
+.accordion-body {
+  background-color: #212529 !important;
+  color: #fff !important;
+}
+
+/* Fix 11: Estilos para form-select en barras de búsqueda */
+.card.bg-dark.border-secondary .form-select {
+  background-color: #212529 !important;
+  color: #fff !important;
+  border-color: #495057 !important;
+}
+
+.card.bg-dark.border-secondary .form-select:focus {
+  background-color: #212529 !important;
+  color: #fff !important;
+  border-color: #b30000 !important;
+  box-shadow: 0 0 0 0.25rem rgba(179, 0, 0, 0.25) !important;
+}
+
+.card.bg-dark.border-secondary .form-select option {
+  background-color: #212529 !important;
   color: #fff !important;
 }

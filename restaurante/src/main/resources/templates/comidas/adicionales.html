@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="'Mi Leña – Adicionales para ' + ${comida.nombre}">Mi Leña – Gestión Adicionales</title>
+    <link rel="icon" th:href="@{/assets/favicon.png}">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" th:href="@{/css/custom.css?v=1}">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav th:replace="fragments/navbar :: navbar"></nav>
+
+    <main class="site-main">
+        <section class="py-5 bg-dark bg-pattern text-white">
+            <div class="container mt-3">
+                <!-- Mensajes -->
+                <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-2"></i>
+                    <span th:text="${success}">Operación exitosa...</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+
+                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <span th:text="${error}">Error</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </div>
+
+            <div class="container-xl">
+                <!-- Encabezado CON BOTÓN CREAR -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="text-acento mb-2">
+                            <i class="bi bi-plus-circle-fill"></i> Gestión de Adicionales
+                        </h2>
+                        <p class="text-white-75 mb-0">
+                            Administra los adicionales de <span th:text="${comida.nombre}" class="text-acento">la comida</span>
+                        </p>
+                        <nav aria-label="breadcrumb" class="mt-2">
+                            <ol class="breadcrumb breadcrumb-dark">
+                                <li class="breadcrumb-item"><a th:href="@{/comidas}" class="text-white-75">Comidas</a></li>
+                                <li class="breadcrumb-item"><a th:href="@{'/comidas/' + ${comida.id}}" class="text-white-75" th:text="${comida.nombre}"></a></li>
+                                <li class="breadcrumb-item active text-acento">Adicionales</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div>
+                        <a th:href="@{'/comidas/' + ${comida.id}}" class="btn btn-outline-light me-2">
+                            <i class="bi bi-arrow-left"></i> Volver
+                        </a>
+                        <a th:href="@{/adicionales/nuevo}" class="btn btn-success">
+                            <i class="bi bi-plus-lg"></i> Crear Adicional
+                        </a>
+                    </div>
+                </div>
+
+
+            <!-- Info de la comida -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card bg-dark text-white border-secondary">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    <img th:src="${comida.imagenUrl}" th:alt="${comida.nombre}" 
+                                         class="img-fluid rounded" style="max-height: 80px; object-fit: cover;">
+                                </div>
+                                <div class="col-md-8">
+                                    <h4 class="mb-1" th:text="${comida.nombre}">Comida</h4>
+                                    <p class="mb-1 text-white-75" th:text="${comida.descripcion}">Descripción</p>
+                                    <span class="badge bg-primario" th:text="${comida.categoria}"></span>
+                                </div>
+                                <div class="col-md-2 text-end">
+                                    <h5 class="text-acento mb-0" th:text="${comida.precioFormateado}">$0</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gestión de Adicionales con Accordion Compacto -->
+            <div class="card-ml">
+                <div class="accordion" id="adicionalesAccordion">
+                    <!-- Adicionales Asignados -->
+                    <div class="accordion-item bg-dark border-secondary">
+                        <h2 class="accordion-header" id="headingAsignados">
+                            <button class="accordion-button bg-dark text-white border-secondary" type="button" 
+                                    data-bs-toggle="collapse" data-bs-target="#collapseAsignados" 
+                                    aria-expanded="true" aria-controls="collapseAsignados">
+                                <i class="bi bi-check2-all text-success me-2"></i>
+                                Adicionales Asignados 
+                                <span class="badge bg-success ms-2" th:text="${adicionalesAsignados.size()}">0</span>
+                            </button>
+                        </h2>
+                        <div id="collapseAsignados" class="accordion-collapse collapse show" 
+                             aria-labelledby="headingAsignados" data-bs-parent="#adicionalesAccordion">
+                            <div class="accordion-body bg-dark text-white">
+                                <div th:if="${adicionalesAsignados.empty}" class="text-center py-3">
+                                    <i class="bi bi-inbox fs-1 text-white-50"></i>
+                                    <p class="text-white-75 mt-2 mb-0">Esta comida no tiene adicionales asignados</p>
+                                </div>
+                                
+                                <div th:if="${!adicionalesAsignados.empty}" class="row">
+                                    <div th:each="adicional : ${adicionalesAsignados}" class="col-md-6 col-lg-4 mb-3">
+                                        <div class="card bg-secondary border-success border-2 h-100">
+                                            <div class="card-body p-3">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <h6 class="card-title text-white mb-0" th:text="${adicional.nombre}">Adicional</h6>
+                                                    <form th:action="@{'/comidas/' + ${comida.id} + '/adicionales/' + ${adicional.id} + '/desasignar'}" 
+                                                          method="post" class="d-inline ms-2" 
+                                                          onsubmit="return confirm('¿Desasignar este adicional?');">
+                                                        <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle p-1" 
+                                                                style="width: 24px; height: 24px;" title="Desasignar">
+                                                            <i class="bi bi-x-lg" style="font-size: 10px;"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                                <p class="card-text text-white-75 small mb-2" th:text="${adicional.descripcion}">Descripción</p>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <span class="badge bg-acento text-dark" th:text="${adicional.precioFormateado}">$0</span>
+                                                    <span th:if="${!adicional.activo}" class="badge bg-warning text-dark">Inactivo</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Adicionales Disponibles -->
+                    <div class="accordion-item bg-dark border-secondary">
+                        <h2 class="accordion-header" id="headingDisponibles">
+                            <button class="accordion-button collapsed bg-dark text-white border-secondary" type="button" 
+                                    data-bs-toggle="collapse" data-bs-target="#collapseDisponibles" 
+                                    aria-expanded="false" aria-controls="collapseDisponibles">
+                                <i class="bi bi-plus-circle text-info me-2"></i>
+                                Adicionales Disponibles 
+                                <span class="badge bg-info text-dark ms-2" th:text="${adicionalesDisponibles.size()}">0</span>
+                            </button>
+                        </h2>
+                        <div id="collapseDisponibles" class="accordion-collapse collapse" 
+                             aria-labelledby="headingDisponibles" data-bs-parent="#adicionalesAccordion">
+                            <div class="accordion-body bg-dark text-white">
+                                <div th:if="${adicionalesDisponibles.empty}" class="text-center py-3">
+                                    <i class="bi bi-emoji-smile fs-1 text-white-50"></i>
+                                    <p class="text-white-75 mt-2 mb-3">Todos los adicionales están asignados</p>
+                                    <a th:href="@{/adicionales/nuevo}" class="btn btn-success btn-sm">
+                                        <i class="bi bi-plus-lg"></i> Crear Nuevo Adicional
+                                    </a>
+                                </div>
+                                
+                                <div th:if="${!adicionalesDisponibles.empty}" class="row">
+                                    <div th:each="adicional : ${adicionalesDisponibles}" class="col-md-6 col-lg-4 mb-3">
+                                        <div class="card bg-secondary border-info border-2 h-100">
+                                            <div class="card-body p-3">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <h6 class="card-title text-white mb-0" th:text="${adicional.nombre}">Adicional</h6>
+                                                    <form th:action="@{'/comidas/' + ${comida.id} + '/adicionales/' + ${adicional.id} + '/asignar'}" 
+                                                          method="post" class="d-inline ms-2">
+                                                        <button type="submit" class="btn btn-outline-success btn-sm rounded-circle p-1" 
+                                                                style="width: 24px; height: 24px;" title="Asignar">
+                                                            <i class="bi bi-plus-lg" style="font-size: 10px;"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                                <p class="card-text text-white-75 small mb-2" th:text="${adicional.descripcion}">Descripción</p>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <span class="badge bg-acento text-dark" th:text="${adicional.precioFormateado}">$0</span>
+                                                    <span th:if="${!adicional.activo}" class="badge bg-warning text-dark">Inactivo</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estadísticas -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card bg-dark text-white border-secondary">
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-md-3">
+                                    <h4 class="text-acento" th:text="${adicionalesAsignados.size()}">0</h4>
+                                    <small class="text-white-75">Asignados</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <h4 class="text-info" th:text="${adicionalesDisponibles.size()}">0</h4>
+                                    <small class="text-white-75">Disponibles</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <h4 class="text-success" th:text="${#lists.size(adicionalesAsignados.?[activo == true])}">0</h4>
+                                    <small class="text-white-75">Asignados Activos</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <h4 class="text-warning" th:text="${#lists.size(adicionalesAsignados.?[activo == false])}">0</h4>
+                                    <small class="text-white-75">Asignados Inactivos</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer th:replace="fragments/footer :: footer"></footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+
+</body>
+</html>

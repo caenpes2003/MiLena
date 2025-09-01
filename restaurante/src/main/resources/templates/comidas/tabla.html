@@ -74,6 +74,39 @@
             </a>
           </div>
 
+          <!-- Barra de búsqueda -->
+          <div class="card bg-dark border-secondary p-3 mb-4">
+            <form id="busqueda-form" class="row g-3">
+              <div class="col-md-6">
+                <div class="input-group">
+                  <span class="input-group-text bg-dark text-white border-secondary">
+                    <i class="bi bi-search"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="searchInput"
+                    class="form-control bg-dark text-white border-secondary"
+                    placeholder="Buscar por nombre de comida..."
+                    autocomplete="off"
+                    style="background-color: #212529 !important; color: #fff !important;"
+                  />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <select id="statusFilter" class="form-select bg-dark text-white border-secondary">
+                  <option value="">Todos los estados</option>
+                  <option value="activo">Solo activos</option>
+                  <option value="inactivo">Solo inactivos</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <button type="button" id="clearBtn" class="btn btn-outline-secondary w-100">
+                  <i class="bi bi-x-circle"></i> Limpiar
+                </button>
+              </div>
+            </form>
+          </div>
+
           <!-- Tabla CON BOTONES CRUD -->
           <div class="card-ml">
             <div class="table-responsive">
@@ -84,7 +117,7 @@
                     <th>Nombre</th>
                     <th>Precio</th>
                     <th>Estado</th>
-                    <th width="200">Acciones</th>
+                    <th width="240">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -155,6 +188,22 @@
                           <i class="bi bi-pencil"></i>
                         </a>
 
+                        <!-- Gestionar Adicionales -->
+                        <a
+                          th:href="@{/comidas/{id}/adicionales(id=${comida.id})}"
+                          class="btn btn-sm btn-outline-success rounded-circle p-2"
+                          title="Gestionar Adicionales"
+                          style="
+                            width: 35px;
+                            height: 35px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                          "
+                        >
+                          <i class="bi bi-plus-circle"></i>
+                        </a>
+
                         <!-- Eliminar -->
                         <form
                           th:action="@{|/comidas/${comida.id}/eliminar|}"
@@ -212,6 +261,53 @@
           form.submit();
         }
       }
+
+      // Script de búsqueda y filtros
+      document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const statusFilter = document.getElementById('statusFilter');
+        const clearBtn = document.getElementById('clearBtn');
+        const tableRows = document.querySelectorAll('tbody tr:not([th\\:if])');
+
+        function filterComidas() {
+          const searchTerm = searchInput.value.toLowerCase();
+          const statusValue = statusFilter.value;
+          let visibleRows = 0;
+
+          tableRows.forEach(row => {
+            const nombre = row.querySelector('h6')?.textContent.toLowerCase() || '';
+            const descripcion = row.querySelector('small')?.textContent.toLowerCase() || '';
+            const badgeElement = row.querySelector('.badge');
+            const isActive = badgeElement?.textContent.includes('Activo') || false;
+            
+            const matchesSearch = nombre.includes(searchTerm) || descripcion.includes(searchTerm);
+            const matchesStatus = statusValue === '' || 
+                                 (statusValue === 'activo' && isActive) || 
+                                 (statusValue === 'inactivo' && !isActive);
+            
+            const shouldShow = matchesSearch && matchesStatus;
+            row.style.display = shouldShow ? '' : 'none';
+            
+            if (shouldShow) visibleRows++;
+          });
+
+          // Mostrar/ocultar mensaje de "no encontrados"
+          const noResultsRow = document.querySelector('tr[th\\:if*="isEmpty"]');
+          if (noResultsRow) {
+            noResultsRow.style.display = visibleRows === 0 ? '' : 'none';
+          }
+        }
+
+        function clearFilters() {
+          searchInput.value = '';
+          statusFilter.value = '';
+          filterComidas();
+        }
+
+        searchInput.addEventListener('input', filterComidas);
+        statusFilter.addEventListener('change', filterComidas);
+        clearBtn.addEventListener('click', clearFilters);
+      });
     </script>
   </body>
 </html>

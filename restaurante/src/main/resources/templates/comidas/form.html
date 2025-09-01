@@ -50,7 +50,7 @@
                   <div class="row g-3">
                     <!-- Nombre -->
                     <div class="col-md-6">
-                      <label for="nombre" class="form-label fw-semibold"
+                      <label for="nombre" class="form-label fw-semibold text-white"
                         >Nombre *</label
                       >
                       <input
@@ -59,6 +59,7 @@
                         id="nombre"
                         th:field="*{nombre}"
                         th:class="${#fields.hasErrors('nombre')} ? 'form-control is-invalid' : 'form-control'"
+                        placeholder="Ej: Churrasco Argentino"
                         required
                       />
                       <div
@@ -72,7 +73,7 @@
 
                     <!-- Slug -->
                     <div class="col-md-6">
-                      <label for="slug" class="form-label fw-semibold"
+                      <label for="slug" class="form-label fw-semibold text-white"
                         >Slug *</label
                       >
                       <input
@@ -81,9 +82,10 @@
                         id="slug"
                         th:field="*{slug}"
                         th:class="${#fields.hasErrors('slug')} ? 'form-control is-invalid' : 'form-control'"
+                        placeholder="churrasco-argentino"
                         required
                       />
-                      <div class="form-text">
+                      <div class="form-text text-white-75">
                         URL amigable (ej: churrasco-argentino)
                       </div>
                       <div
@@ -97,7 +99,7 @@
 
                     <!-- Descripción -->
                     <div class="col-12">
-                      <label for="descripcion" class="form-label fw-semibold"
+                      <label for="descripcion" class="form-label fw-semibold text-white"
                         >Descripción *</label
                       >
                       <textarea
@@ -106,6 +108,7 @@
                         th:field="*{descripcion}"
                         rows="3"
                         th:class="${#fields.hasErrors('descripcion')} ? 'form-control is-invalid' : 'form-control'"
+                        placeholder="Ej: Jugosa carne de res, corte importado al punto perfecto, acompañado de papas criollas y ensalada fresca"
                         required
                       ></textarea>
                       <div
@@ -119,7 +122,7 @@
 
                     <!-- Precio -->
                     <div class="col-md-4">
-                      <label for="precio" class="form-label fw-semibold"
+                      <label for="precio" class="form-label fw-semibold text-white"
                         >Precio *</label
                       >
                       <div class="input-group">
@@ -132,6 +135,7 @@
                           min="1"
                           step="100"
                           th:class="${#fields.hasErrors('precio')} ? 'form-control is-invalid' : 'form-control'"
+                          placeholder="25000"
                           required
                         />
                       </div>
@@ -146,7 +150,7 @@
 
                     <!-- Categoría -->
                     <div class="col-md-4">
-                      <label for="categoria" class="form-label fw-semibold"
+                      <label for="categoria" class="form-label fw-semibold text-white"
                         >Categoría</label
                       >
                       <select
@@ -165,7 +169,7 @@
 
                     <!-- Estado -->
                     <div class="col-md-4">
-                      <label class="form-label fw-semibold">Estado</label>
+                      <label class="form-label fw-semibold text-white">Estado</label>
                       <div class="form-check form-switch">
                         <input
                           class="form-check-input"
@@ -174,7 +178,7 @@
                           th:field="*{activo}"
                           th:checked="*{activo}"
                         />
-                        <label class="form-check-label" for="activo">
+                        <label class="form-check-label text-white" for="activo">
                           Activo (visible en el menú)
                         </label>
                       </div>
@@ -182,7 +186,7 @@
 
                     <!-- URL de imagen -->
                     <div class="col-12">
-                      <label for="imagenUrl" class="form-label fw-semibold"
+                      <label for="imagenUrl" class="form-label fw-semibold text-white"
                         >URL de la imagen</label
                       >
                       <input
@@ -192,14 +196,14 @@
                         th:field="*{imagenUrl}"
                         placeholder="https://ejemplo.com/imagen.jpg"
                       />
-                      <div class="form-text">
+                      <div class="form-text text-white-75">
                         URL completa de la imagen del plato
                       </div>
                     </div>
 
                     <!-- Vista previa de imagen -->
                     <div class="col-12" th:if="*{imagenUrl}">
-                      <label class="form-label fw-semibold">Vista previa</label>
+                      <label class="form-label fw-semibold text-white">Vista previa</label>
                       <div class="text-center">
                         <img
                           th:src="*{imagenUrl}"
@@ -207,6 +211,53 @@
                           class="img-thumbnail"
                           style="max-height: 200px"
                         />
+                      </div>
+                    </div>
+
+                    <!-- Adicionales (Solo mostrar si hay adicionales disponibles) -->
+                    <div class="col-12" th:if="${not #lists.isEmpty(adicionales)}">
+                      <label class="form-label fw-semibold text-white">Adicionales disponibles</label>
+                      <div class="card bg-dark border-secondary">
+                        <div class="card-body">
+                          <p class="text-white-75 small mb-3">
+                            Selecciona los adicionales que estarán disponibles para este plato. 
+                            <span th:if="${comida.id != null}" class="text-warning">
+                              (Los cambios se aplicarán al guardar la comida)
+                            </span>
+                          </p>
+                          <div class="row g-2">
+                            <div th:each="adicional : ${adicionales}" class="col-md-6">
+                              <div class="form-check">
+                                <input 
+                                  class="form-check-input" 
+                                  type="checkbox" 
+                                  th:id="'adicional_' + ${adicional.id}"
+                                  th:value="${adicional.id}"
+                                  name="adicionalesSeleccionados"
+                                  th:checked="${comida.id != null and #lists.contains(adicionalesAsignados, adicional)}"
+                                />
+                                <label 
+                                  class="form-check-label text-white" 
+                                  th:for="'adicional_' + ${adicional.id}"
+                                >
+                                  <strong th:text="${adicional.nombre}">Adicional</strong>
+                                  <br>
+                                  <small class="text-white-75" th:text="${adicional.descripcion}">Descripción</small>
+                                  <br>
+                                  <span class="badge bg-acento text-dark me-1" th:text="${adicional.precioFormateado}">$0</span>
+                                  <span th:if="${!adicional.activo}" class="badge bg-warning text-dark">Inactivo</span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                          <div th:if="${#lists.isEmpty(adicionales)}" class="text-center text-white-50 py-3">
+                            <i class="bi bi-inbox fs-4"></i>
+                            <p class="mb-0">No hay adicionales disponibles.</p>
+                            <a href="/adicionales/nuevo" class="btn btn-outline-success btn-sm mt-2">
+                              <i class="bi bi-plus-lg"></i> Crear adicional
+                            </a>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
