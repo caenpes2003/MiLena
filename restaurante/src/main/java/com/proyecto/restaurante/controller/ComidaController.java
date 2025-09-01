@@ -23,7 +23,7 @@ import com.proyecto.restaurante.service.IComidaService;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/comidas") // Solo rutas de administración
+@RequestMapping("/comidas")
 public class ComidaController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class ComidaController {
         List<Comida> comidas = comidaService.listarTodas(); // Todas (activas e inactivas)
         model.addAttribute("items", comidas);
         model.addAttribute("categorias", comidaService.obtenerCategorias());
-        return "comidas/tabla"; // ← Nueva vista administrativa
+        return "comidas/tabla";
     }
 
     // ADMIN: Buscar con filtros
@@ -75,8 +75,7 @@ public class ComidaController {
         model.addAttribute("item", comida.get());
         model.addAttribute("adicionales", adicionalService.obtenerPorComidaId(id));
 
-        // Usar template de detalle (puedes crear uno específico para admin si quieres)
-        return "producto"; // O crear "comidas/detalle.html"
+        return "producto";
     }
 
     // ADMIN: Crear nueva comida - Formulario
@@ -108,7 +107,7 @@ public class ComidaController {
 
         try {
             Comida nuevaComida = comidaService.guardar(comida);
-            
+
             // Asignar adicionales seleccionados
             if (adicionalesSeleccionados != null && !adicionalesSeleccionados.isEmpty()) {
                 for (String adicionalIdStr : adicionalesSeleccionados) {
@@ -125,7 +124,7 @@ public class ComidaController {
                     }
                 }
             }
-            
+
             ra.addFlashAttribute("success", "Comida creada exitosamente");
             return "redirect:/comidas/" + nuevaComida.getId();
         } catch (Exception e) {
@@ -172,14 +171,14 @@ public class ComidaController {
 
         try {
             comidaService.actualizar(id, comida);
-            
+
             // Actualizar adicionales - Primero desasignar todos los anteriores
             List<Adicional> adicionalesAnteriores = adicionalService.obtenerPorComidaId(id);
             for (Adicional adicional : adicionalesAnteriores) {
                 adicional.setComida(null);
                 adicionalService.actualizar(adicional.getId(), adicional);
             }
-            
+
             // Luego asignar los nuevos seleccionados
             if (adicionalesSeleccionados != null && !adicionalesSeleccionados.isEmpty()) {
                 Optional<Comida> comidaActualizada = comidaService.obtenerPorId(id);
@@ -199,7 +198,7 @@ public class ComidaController {
                     }
                 }
             }
-            
+
             ra.addFlashAttribute("success", "Comida actualizada exitosamente");
             return "redirect:/comidas/" + id;
         } catch (Exception e) {
@@ -254,19 +253,19 @@ public class ComidaController {
         model.addAttribute("comida", comida.get());
         model.addAttribute("adicionalesAsignados", adicionalService.obtenerPorComidaId(id));
         model.addAttribute("adicionalesDisponibles", adicionalService.obtenerSinAsignar());
-        
+
         return "comidas/adicionales";
     }
 
     // ADMIN: Asignar adicional a comida
     @PostMapping("/{comidaId}/adicionales/{adicionalId}/asignar")
-    public String asignarAdicional(@PathVariable Long comidaId, 
-            @PathVariable Long adicionalId, 
+    public String asignarAdicional(@PathVariable Long comidaId,
+            @PathVariable Long adicionalId,
             RedirectAttributes ra) {
         try {
             Optional<Comida> comida = comidaService.obtenerPorId(comidaId);
             Optional<Adicional> adicional = adicionalService.obtenerPorId(adicionalId);
-            
+
             if (comida.isEmpty() || adicional.isEmpty()) {
                 ra.addFlashAttribute("error", "Comida o adicional no encontrado");
                 return "redirect:/comidas/" + comidaId + "/adicionales";
@@ -276,7 +275,7 @@ public class ComidaController {
             Adicional adicionalActualizado = adicional.get();
             adicionalActualizado.setComida(comida.get());
             adicionalService.actualizar(adicionalId, adicionalActualizado);
-            
+
             ra.addFlashAttribute("success", "Adicional '" + adicional.get().getNombre() + "' asignado exitosamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al asignar adicional: " + e.getMessage());
@@ -286,12 +285,12 @@ public class ComidaController {
 
     // ADMIN: Desasignar adicional de comida
     @PostMapping("/{comidaId}/adicionales/{adicionalId}/desasignar")
-    public String desasignarAdicional(@PathVariable Long comidaId, 
-            @PathVariable Long adicionalId, 
+    public String desasignarAdicional(@PathVariable Long comidaId,
+            @PathVariable Long adicionalId,
             RedirectAttributes ra) {
         try {
             Optional<Adicional> adicional = adicionalService.obtenerPorId(adicionalId);
-            
+
             if (adicional.isEmpty()) {
                 ra.addFlashAttribute("error", "Adicional no encontrado");
                 return "redirect:/comidas/" + comidaId + "/adicionales";
@@ -301,7 +300,7 @@ public class ComidaController {
             Adicional adicionalActualizado = adicional.get();
             adicionalActualizado.setComida(null);
             adicionalService.actualizar(adicionalId, adicionalActualizado);
-            
+
             ra.addFlashAttribute("success", "Adicional '" + adicional.get().getNombre() + "' desasignado exitosamente");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "Error al desasignar adicional: " + e.getMessage());
